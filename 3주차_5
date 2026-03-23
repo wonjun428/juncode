@@ -1,0 +1,25 @@
+% 문제5
+
+clear
+
+p1 = [5, 0, -3, 7, 10];
+
+p2 = [4, -7, 9, 2];
+
+poly_mult = conv(p1, p2)
+
+p3 = [5, -7, 2, 8];
+
+p4 = [6, 3, -2];
+
+[quotient, remainder] = deconv(p3, p4)
+
+p5 = [36, -8, 0, 2];
+
+p6 = [36, -5, 4, -3];
+
+
+val_num = polyval(p5, 5);
+val_den = polyval(p6, 5);
+
+final_val = val_num / val_den
