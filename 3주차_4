@@ -1,0 +1,15 @@
+% 문제4
+
+clear
+
+consumption = [5, 4, 6;
+               3, 2, 4;
+               6, 5, 3;
+               3, 5, 4;
+               2, 4, 3];
+
+total_monthly = sum(consumption, 1)
+
+total_by_material = sum(consumption, 2)
+
+total_all = sum(consumption, 'all')
