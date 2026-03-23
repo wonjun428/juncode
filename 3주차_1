@@ -1,0 +1,18 @@
+% 문제1
+
+a1_A = [1, 4, 2; 
+        2, 4, 100; 
+        7, 9, 7; 
+        3, pi, 42];
+
+a1_B = log(a1_A);
+
+ans_1a = a1_B(2, :)
+ans_1b = sum(a1_B(2, :))
+ans_1c = a1_B(:, 2) .* a1_A(:, 1)
+ans_1d = max(ans_1c)
+row_data1 = a1_A(1, :);
+col_data1 = a1_B(1:3, 3)';
+
+div_vec1 = row_data1 ./ col_data1;
+ans_1e = sum(div_vec1)
