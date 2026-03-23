@@ -1,0 +1,18 @@
+% 문제7(6)
+clear
+
+bridges(1) = struct('location', 'Smith St.', 'max_load', 80, 'year_built', 1928, 'maintenance_year', 2025);
+bridges(2) = struct('location', 'Hope Ave.', 'max_load', 90, 'year_built', 1950, 'maintenance_year', 2027);
+bridges(3) = struct('location', 'Clark St.', 'max_load', 85, 'year_built', 1933, 'maintenance_year', 2024);
+bridges(4) = struct('location', 'North Rd.', 'max_load', 100, 'year_built', 1960, 'maintenance_year', 2023);
+
+
+bridges(3).maintenance_year = 2026;
+
+
+bridges(5).location = 'Shore Rd.';
+bridges(5).max_load = 85;
+bridges(5).year_built = 1997;
+bridges(5).maintenance_year = 2022;
+
+bridges
