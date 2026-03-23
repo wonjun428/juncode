@@ -1,0 +1,26 @@
+% 문제2
+
+clear
+
+v0= 50;
+A_deg = 50; 
+g = 9.81;   
+
+A_rad = deg2rad(A_deg);
+
+t_hit = (2 * v0 * sin(A_rad)) / g
+
+y_max = (v0 * sin(A_rad))^2 / (2 * g)
+
+
+t = linspace(0, t_hit, 100);
+
+x = v0 * cos(A_rad) * t;
+y = v0 * sin(A_rad) * t - 0.5 * g * t.^2;
+
+plot(x, y, 'LineWidth', 2)
+grid on
+xlabel('Horizontal Distance x [m]')
+ylabel('Vertical Distance y [m]')
+title('Projectile Motion: x vs y Trajectory')
+legend('Trajectory Path')
