@@ -1,0 +1,15 @@
+% 문제3
+
+clear
+
+x = linspace(-2, 16, 200);
+
+f = (4 * cos(x)) ./ (x + exp(-0.75 * x));
+
+plot(x, f, 'LineWidth', 2)
+grid on
+
+xlabel('x')
+ylabel('f(x)')
+title('Graph of f(x) = 4cos(x) / (x + e^{-0.75x})')
+legend('f(x)')
