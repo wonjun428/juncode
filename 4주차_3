@@ -1,0 +1,34 @@
+global V
+V = 10;
+
+[r_min, A_min] = fminbnd(@lwj_24013931_func_3, 0.1, 10);
+h_min = (3 * V) / (pi * r_min^2);
+
+fprintf('최소 면적 A: %.4f in^2\n', A_min);
+fprintf('최적의 반지름 r: %.4f in\n', r_min);
+fprintf('그때의 높이 h: %.4f in\n', h_min);
+
+r_plot = linspace(0.5, 5, 200);
+A_plot = zeros(size(r_plot));
+for i = 1:length(r_plot)
+    A_plot(i) = lwj_24013931_func_3(r_plot(i));
+end
+
+figure;
+plot(r_plot, A_plot, 'LineWidth', 1.5); hold on;
+plot(r_min, A_min, 'ro', 'MarkerFaceColor', 'r');
+
+yline(A_min * 1.1, 'k--', '최소 면적의 110% 지점');
+
+grid on;
+xlabel('반지름 r (in)'); ylabel('표면적 A (in^2)');
+title('반지름 r에 따른 표면적 A의 변화');
+legend('A(r) 곡선', '최솟점', '10% 증가 한계선');
+
+f_limit = @(r) lwj_24013931_func_3(r) - A_min * 1.1;
+r_limit_low = fzero(f_limit, 1);
+r_limit_high = fzero(f_limit, 3);
+
+fprintf('면적이 10%% 증가하기 전까지 r의 범위: %.4f in ~ %.4f in\n', r_limit_low, r_limit_high);
+fprintf('최적값(%.4f)에서 아래로 %.4f, 위로 %.4f 만큼 벗어날 수 있음\n', ...
+    r_min, r_min - r_limit_low, r_limit_high - r_min);
