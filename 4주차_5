@@ -1,0 +1,19 @@
+f_quad = @(x) lwj_24013931_func_5(x);
+
+x_plot = linspace(0, 10, 100);
+y_plot = f_quad(x_plot);
+
+figure;
+plot(x_plot, y_plot, 'LineWidth', 1.5); hold on;
+grid on;
+xlabel('x');
+ylabel('f(x)');
+title('f(x) = 30x^2 - 300x + 4의 그래프');
+
+[x_min, f_val] = fminbnd(f_quad, 0, 10);
+
+plot(x_min, f_val, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
+legend('f(x)', '정확한 최솟값 지점');
+
+fprintf('fminbnd로 구한 최솟값의 위치 x: %.4f\n', x_min);
+fprintf('해당 지점에서의 함수값 f(x): %.4f\n', f_val);
