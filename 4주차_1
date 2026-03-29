@@ -1,0 +1,18 @@
+f = @(x) lwj_24013931_func_1(x);
+
+r1 = fzero(f, 0);
+r2 = fzero(f, 0.7);
+r3 = fzero(f, 1.4);
+fprintf('범위 [0, 4] 내의 근: %.4f, %.4f, %.4f\n', r1, r2, r3);
+
+[x_min, f_min] = fminbnd(f, 0, 4);
+fprintf('최솟값 발생 지점 x: %.4f\n', x_min);
+fprintf('최솟값 f(x): %.4f\n', f_min);
+
+x = linspace(0, 4, 1000);
+plot(x, f(x), 'LineWidth', 1.5); hold on;
+plot(x_min, f_min, 'ro', 'MarkerSize', 8, 'MarkerFaceColor', 'r');
+grid on;
+xlabel('x'); ylabel('f(x)');
+title('f(x) = 0.3x - sin(2x)의 전역 최솟값 증명');
+legend('f(x)', 'Global Minimum');
