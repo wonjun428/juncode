@@ -1,0 +1,26 @@
+f_poly = @(x) lwj_24013931_func_6(x);
+
+root1 = fzero(f_poly, 0.5);
+root2 = fzero(f_poly, 2.0);
+root3 = fzero(f_poly, 3.5);
+
+fprintf('구해진 세 개의 근: %.4f, %.4f, %.4f\n', root1, root2, root3);
+
+val1 = f_poly(root1);
+val2 = f_poly(root2);
+val3 = f_poly(root3);
+
+fprintf('근을 대입했을 때의 함숫값(0에 가까워야 함):\n');
+fprintf('f(%.4f) = %e\n', root1, val1);
+fprintf('f(%.4f) = %e\n', root2, val2);
+fprintf('f(%.4f) = %e\n', root3, val3);
+
+x_plot = linspace(0, 4, 100);
+figure;
+plot(x_plot, f_poly(x_plot), 'LineWidth', 1.5); hold on;
+yline(0, 'k--');
+plot([root1, root2, root3], [0, 0, 0], 'ro', 'MarkerFaceColor', 'r');
+grid on;
+xlabel('x'); ylabel('f(x)');
+title('f(x) = 2x^3 - 11.7x^2 + 17.7x - 5의 근 확인');
+legend('f(x)', 'x축', '발견된 근');
