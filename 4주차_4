@@ -1,0 +1,15 @@
+f_anon = @(x) lwj_24013931_func_4(x);
+
+x_val = linspace(0, 2, 200);
+y_val = f_anon(x_val);
+
+figure;
+plot(x_val, y_val, 'm-', 'LineWidth', 2);
+grid on;
+xlabel('x 축');
+ylabel('f(x) 값');
+title('익명 함수를 이용한 f(x) = 10e^{-2x} 그래프');
+legend('f(x) = 10e^{-2x}');
+
+disp('생성된 익명 함수 핸들:');
+disp(f_anon);
