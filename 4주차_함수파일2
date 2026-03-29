@@ -1,0 +1,5 @@
+function t = lwj_24013931_func_2(h, v0, g)
+      coeffs = [0.5*g, -v0, h];
+     
+      t = roots(coeffs);
+end
