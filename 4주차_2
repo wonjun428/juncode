@@ -1,0 +1,24 @@
+h_target = 100;
+v0 = 50;
+g = 9.81;
+
+t_solutions = lwj_24013931_func_2(h_target, v0, g);
+
+t_max = (2 * v0) / g; 
+t_plot = linspace(0, t_max, 100);
+h_plot = v0 * t_plot - 0.5 * g * t_plot.^2;
+
+figure;
+plot(t_plot, h_plot, 'b-', 'LineWidth', 1.5); hold on;
+yline(h_target, 'r--', '목표 높이 100m', 'LineWidth', 1.2);
+plot(t_solutions, [h_target, h_target], 'ro', 'MarkerSize', 8, 'MarkerFaceColor', 'r');
+
+grid on;
+xlabel('시간 t (sec)');
+ylabel('높이 h (m)');
+title('시간에 따른 물체의 높이 변화 (v0=50m/s)');
+legend('물체의 이동 궤적', '목표 높이(100m)', '도달 지점');
+
+fprintf('계산된 시간 t: %.4f초와 %.4f초입니다.\n', min(t_solutions), max(t_solutions));
+fprintf('해석: 물체는 던져진 후 %.4f초에 올라가며 100m에 도달하고,\n', min(t_solutions));
+fprintf('최고점을 찍고 내려오면서 %.4f초에 다시 100m를 통과합니다.\n', max(t_solutions));
