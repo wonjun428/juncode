@@ -1,0 +1,4 @@
+function y = lwj_24013931_func_4(x)
+    % f(x) = 10 * e^(-2x) 계산
+    y = 10 * exp(-2*x);
+end
