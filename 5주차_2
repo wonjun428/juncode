@@ -1,0 +1,27 @@
+userName = input('학생 이름을 입력하세요: ', 's');
+
+scores = input('국어, 영어, 수학 점수를 벡터로 입력하세요 (예: [88 92 79]): ');
+
+lwj_scoreProcess(userName, scores);
+
+function lwj_scoreProcess(name, scoreVec)
+    
+    avgScore = mean(scoreVec);
+    
+    fprintf('\n--- 성적 결과 보고서 ---\n');
+    fprintf('이름: %s\n', name);
+    fprintf('세 과목 점수: [%d, %d, %d]\n', scoreVec(1), scoreVec(2), scoreVec(3));
+    fprintf('평균 점수: %.2f\n', avgScore);
+    
+    fprintf('판정 결과: ');
+    if avgScore >= 90
+        disp('Excellent');
+    elseif avgScore >= 80
+        disp('Good');
+    elseif avgScore >= 70
+        disp('Fair');
+    else
+        disp('Needs Improvement');
+    end
+    fprintf('-----------------------\n');
+end
