@@ -1,0 +1,32 @@
+x = [-2, -1, 0, 1, 2];
+
+res1 = lwj1(x);
+fprintf('(1) squareVec 결과: [%s]\n', num2str(res1));
+
+res2 = lwj2(x);
+fprintf('(2) meanVec 결과: %.2f\n', res2);
+
+res3 = lwj3(x);
+fprintf('(3) mixedTransform 결과: [%s]\n', num2str(res3));
+
+
+function out = lwj1(v)
+    out = v.^2; 
+end
+
+function m = lwj2(v)
+    m = sum(v) / length(v);
+end
+
+function result = lwj3(v)
+    result = zeros(size(v)); 
+    for i = 1:length(v)
+        if v(i) < 0
+            result(i) = abs(v(i));
+        elseif v(i) == 0
+            result(i) = 0;
+        else
+            result(i) = 2 * v(i) + 1;
+        end
+    end
+end
