@@ -1,0 +1,30 @@
+applicants = [165 72 1; 
+              172 85 0; 
+              168 91 1; 
+              181 77 1; 
+              174 69 0; 
+              169 88 1];
+
+lwj_analyze(applicants);
+
+function lwj_analyze(data)
+    h = data(:, 1);
+    s = data(:, 2);
+    i = data(:, 3);
+
+    logic1 = h >= 170;
+    logic2 = s >= 80;
+    logic3 = i == 1;
+
+    disp('(1) 키 170 이상 논리 배열:'); disp(logic1);
+    disp('(2) 시험점수 80 이상 논리 배열:'); disp(logic2);
+    disp('(3) 면접 통과자 논리 배열:'); disp(logic3);
+
+    finalLogic = logic1 & logic2 & logic3;
+    finalIdx = find(finalLogic);
+    disp('(4) 최종 합격자의 행 번호:'); disp(finalIdx);
+
+    finalResult = [finalIdx, data(finalIdx, :)];
+    disp('(5) 최종 합격자 종합 정보 (행번호 키 점수 면접):');
+    disp(finalResult);
+end
