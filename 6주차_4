@@ -1,0 +1,21 @@
+clear; clc;
+
+x = [4, -9, 0, 16, -1, 25];
+
+y = zeros(size(x));
+
+for i = 1:length(x)
+    
+    if x(i) > 0
+        y(i) = sqrt(x(i));
+        
+    elseif x(i) == 0
+        y(i) = x(i);
+        
+    else
+        y(i) = abs(x(i));
+    end
+end
+
+disp('원본 벡터 x:'); disp(x);
+disp('변환된 벡터 y:'); disp(y);
