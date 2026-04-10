@@ -1,0 +1,30 @@
+clear; clc;
+
+price = [19, 18, 22, 21, 25, 19, 17, 21, 27, 29];
+initial_shares = 1000;
+current_shares = initial_shares;
+total_bought_cost = 0;
+total_sold_revenue = 0;
+
+initial_value = initial_shares * price(1);
+
+for i = 1:length(price)
+    current_price = price(i);
+    
+    if current_price < 20
+        current_shares = current_shares + 100;
+        total_bought_cost = total_bought_cost + (100 * current_price);
+        
+    elseif current_price > 25
+        current_shares = current_shares - 100;
+        total_sold_revenue = total_sold_revenue + (100 * current_price);
+    end
+end
+
+final_value = (current_shares * price(end)) + total_sold_revenue - total_bought_cost;
+total_increase = final_value - initial_value;
+
+fprintf('(a) 주식을 사는 데 소비한 금액: $%d\n', total_bought_cost);
+fprintf('(b) 주식을 팔아서 얻어진 금액: $%d\n', total_sold_revenue);
+fprintf('(c) 10일 후 보유하고 있는 주식의 수: %d주\n', current_shares);
+fprintf('(d) 포트폴리오에서 총 가치의 증가분: $%d\n', total_increase);
