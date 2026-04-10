@@ -1,0 +1,18 @@
+clear; clc;
+
+N = input('양의 정수 N을 입력하세요: ');
+
+a = zeros(1, N);
+
+for k = 1:N
+    
+    if mod(k, 2) ~= 0
+        a(k) = k^2;
+    else
+        a(k) = k^3;
+    end
+    
+end
+
+fprintf('생성된 벡터 a (N=%d):\n', N);
+disp(a);
