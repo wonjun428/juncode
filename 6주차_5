@@ -1,0 +1,30 @@
+clear; clc;
+
+a = input('첫 번째 수(a)를 입력하세요: ');
+b = input('두 번째 수(b)를 입력하세요: ');
+cmd = input('명령어를 입력하세요 (add, sub, mul, div): ', 's');
+
+switch cmd
+    case 'add'
+        result = a + b;
+        fprintf('결과: %.2f + %.2f = %.2f\n', a, b, result);
+        
+    case 'sub'
+        result = a - b;
+        fprintf('결과: %.2f - %.2f = %.2f\n', a, b, result);
+        
+    case 'mul'
+        result = a * b;
+        fprintf('결과: %.2f * %.2f = %.2f\n', a, b, result);
+        
+    case 'div'
+        if b == 0
+            disp('division by zero');
+        else
+            result = a / b;
+            fprintf('결과: %.2f / %.2f = %.2f\n', a, b, result);
+        end
+        
+    otherwise
+        disp('invalid command');
+end
