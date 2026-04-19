@@ -1,0 +1,23 @@
+x = 0:0.1:pi;
+yTrue = sin(x);
+yApprox = zeros(size(x));
+for i = 1:length(x)
+    n = 0;
+    partialSum = 0;
+    term = x(i);
+
+    while abs(term) > 1e-6
+        partialSum = partialSum + term;
+        n = n + 1;
+        term = (-1)^n * x(i)^(2*n+1) / factorial(2*n+1);
+    end
+
+    yApprox(i) = partialSum;
+end
+
+plot(x,yTrue,'-b',x,yApprox,'--r')
+title('sin(x) and Taylor Approximation')
+xlabel('x')
+ylabel('y')
+legend('sin(x)','Taylor approximation')
+grid on
