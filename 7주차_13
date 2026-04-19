@@ -1,0 +1,29 @@
+g = 9.8;
+c = 0.1;
+dt = 0.1;
+
+v = 0;
+t = 0;
+
+time = t;
+velocity = v;
+
+while true
+    vNext = v + (g - c*v)*dt;
+    t = t + dt;
+
+    time(end+1) = t;
+    velocity(end+1) = vNext;
+
+    if abs(vNext- v) < 0.001
+        break
+    end
+
+    v = vNext;
+end
+
+plot(time,velocity,'-o')
+title('Velocity of Falling Object')
+xlabel('Time')
+ylabel('Velocity')
+grid on
