@@ -1,0 +1,17 @@
+x = 0:pi/502*pi;
+y1 = sin(x);
+y2 = sin(2*x);
+
+subplot(2,1,1)
+plot(x,y1)
+title('sin(X)')
+xlabel('x')
+ylabel('y1')
+grid on
+
+subplot(2,1,2)
+plot(x,y2)
+title('sin(2x)')
+xlabel('x')
+ylabel('y2')
+grid on
