@@ -1,0 +1,10 @@
+data = load('monthly_temp.txt');
+
+month = data(:,1);
+maxTemp = data(:,2);
+
+plot(month,maxTemp,'-o')
+title('Monthly Maximum Temperature')
+xlabel('Month')
+ylabel('Temperature')
+grid on
