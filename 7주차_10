@@ -1,0 +1,10 @@
+theta = 0:0.01:pi/2;
+R1 = (50^2/9.8)*sin(2*theta);
+R2 = (100^2/9.8)*sin(2*theta);
+
+plot(theta,R1,'-b',theta,R2,'--r')
+title('Projectile Range')
+xlabel('angle [radian]')
+ylabel('Range [meter]')
+legend('v = 50 m/s','v = 100 m/s')
+grid on
