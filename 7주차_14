@@ -1,0 +1,25 @@
+x = 1;
+values = x;
+k = 0;
+
+while true
+    xNext = cos(x);
+    k = k + 1;
+    values(end+1) = xNext;
+
+    if abs(xNext - x) < 1e-4
+        break
+    end
+
+    x = xNext;
+end
+
+n = 0:k;
+limitValue = values(end) * ones(size(n));
+
+plot(n,values,'-o',n,limitValue,'--r')
+title('Fixed-Point Iteration')
+xlabel('Iteration')
+ylabel('x_k')
+legend('x_k','limit')
+grid on
