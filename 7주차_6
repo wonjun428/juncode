@@ -1,0 +1,10 @@
+data = load('motion_data.txt');
+
+time = data(:,1);
+distance = data(:,2);
+
+plot(time,distance,'o-')
+title('Distance versus Time')
+xlabel('Time')
+ylabel('Distance')
+grid on
