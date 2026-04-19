@@ -1,0 +1,25 @@
+x = 0:pi/100:2*pi;
+
+subplot(2,2,1)
+plot(x,sin(x))
+title('sin(x)')
+xlim([0 2*pi])
+grid on
+
+subplot(2,2,2)
+plot(x,cos(x))
+title('cos(x)')
+xlim([0 2*pi])
+grid on
+
+subplot(2,2,3)
+plot(x,sin(2*x))
+title('sin(2x)')
+xlim([0 2*pi])
+grid on
+
+subplot(2,2,4)
+plot(x,cos(2*x))
+title('cos(2x)')
+xlim([0 2*pi])
+grid on
