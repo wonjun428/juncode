@@ -1,0 +1,10 @@
+N = input('N = ');
+
+k = 1;
+while k <= N
+    if rem(k,2) == 0
+        disp(k)
+    end
+
+    k = k + 1;
+end
