@@ -1,0 +1,19 @@
+N = input('N = ');
+
+a = 1;
+b = 1;
+
+disp(a)
+if b <= N
+    disp(b)
+end
+
+while true 
+    c = a + b;
+    if c > N
+        break
+    end
+    disp(c)
+    a = b;
+    b = c;
+end
