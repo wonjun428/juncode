@@ -1,0 +1,10 @@
+N = input('N = ');
+
+sumN = 0;
+k = 1;
+
+while k <= N
+    sumN = sumN + k;
+    k = k + 1;
+end
+disp(sumN)
