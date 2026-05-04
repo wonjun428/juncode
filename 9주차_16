@@ -1,0 +1,20 @@
+clear; clc;
+
+A = [2 -1; 3 4];
+B = [1 0 -2; 3 5 1];
+C = [6 -3 4; 15 14 -1];
+
+RHS = C - B;
+
+X = A \ RHS;
+
+Check_C = A * X + B;
+
+fprintf('(b) 계산된 행렬 X:\n'); disp(X);
+fprintf('(c) 검증 결과 (A*X + B):\n'); disp(Check_C);
+fprintf('원래 행렬 C와 일치하는가? ');
+if isequal(round(Check_C, 10), round(C, 10))
+    disp('예, 일치합니다.');
+else
+    disp('아니오, 일치하지 않습니다.');
+end
