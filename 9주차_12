@@ -1,0 +1,23 @@
+clear; clc;
+
+n = 1 : 1 : 30;
+
+T1 = n;
+T2 = n .* log(n);
+T3 = n.^2;
+T4 = 2.^n;
+
+figure;
+subplot(2, 1, 1);
+plot(n, T1, 'b-', n, T2, 'g--', n, T3, 'r-.', n, T4, 'm:');
+title('Algorithm Complexity Comparison (Linear Scale)');
+xlabel('n'); ylabel('Computation Time');
+legend('n', 'n log(n)', 'n^2', '2^n', 'Location', 'northwest');
+grid on;
+
+subplot(2, 1, 2);
+semilogy(n, T1, 'b-', n, T2, 'g--', n, T3, 'r-.', n, T4, 'm:');
+title('Algorithm Complexity Comparison (Log Scale)');
+xlabel('n'); ylabel('log(Computation Time)');
+legend('n', 'n log(n)', 'n^2', '2^n', 'Location', 'northwest');
+grid on;
