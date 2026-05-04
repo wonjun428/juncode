@@ -1,0 +1,25 @@
+clear; clc;
+
+t = 0 : 0.01 : 25;
+y = exp(-0.15 * t) .* cos(4 * t);
+env_up = exp(-0.15 * t);
+env_down = -exp(-0.15 * t);
+
+figure;
+subplot(2, 1, 1);
+plot(t, y, 'b', 'LineWidth', 1); hold on;
+plot(t, env_up, 'r--', 'LineWidth', 1.5);
+plot(t, env_down, 'r--', 'LineWidth', 1.5);
+title('Damped Oscillation Signal with Envelopes');
+xlabel('Time (t)');
+ylabel('y(t)');
+legend('Signal y(t)', 'Envelopes');
+grid on;
+hold off;
+
+subplot(2, 1, 2);
+semilogy(t, abs(y), 'g');
+title('Log Scale Analysis of |y(t)|');
+xlabel('Time (t)');
+ylabel('log|y(t)|');
+grid on;
