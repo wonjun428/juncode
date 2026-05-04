@@ -1,0 +1,11 @@
+clear; clc;
+
+f = @(x) sin(x) .* exp(-0.1 * x);
+
+fplot(f, [0, 10*pi]);
+
+title('Graph of f(x) = sin(x)e^{-0.1x}');
+xlabel('x axis');
+ylabel('f(x)');
+
+grid on;
