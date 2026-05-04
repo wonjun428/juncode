@@ -1,0 +1,23 @@
+clear; clc;
+
+score = [72, 85, 91, 66, 78, 88, 95, 54, 60, 73, 82, 90, 69, 77, 84, 92, 58, 63, 79, 87];
+
+save('score.dat', 'score', '-ascii');
+
+score_data = load('score.dat');
+
+figure;
+
+subplot(1, 2, 1);
+histogram(score_data, 5);
+title('Bins = 5');
+xlabel('Score');
+ylabel('Frequency');
+grid on;
+
+subplot(1, 2, 2);
+histogram(score_data, 10);
+title('Bins = 10');
+xlabel('Score');
+ylabel('Frequency');
+grid on;
