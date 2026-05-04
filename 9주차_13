@@ -1,0 +1,27 @@
+clear; clc;
+
+t = 0 : 0.1 : 24;
+
+T = 15 + 10 * sin(pi * t / 12);
+
+[max_T, max_idx] = max(T);
+[min_T, min_idx] = min(T);
+
+t_max = t(max_idx);
+t_min = t(min_idx);
+
+figure;
+plot(t, T, 'b', 'LineWidth', 2); hold on;
+
+plot(t_max, max_T, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
+plot(t_min, min_T, 'ko', 'MarkerSize', 10, 'MarkerFaceColor', 'k');
+
+text(t_max + 0.5, max_T, sprintf('최고 온도: %.1f°C (%d시)', max_T, t_max), 'FontSize', 10, 'Color', 'r');
+text(t_min + 0.5, min_T, sprintf('최저 온도: %.1f°C (%d시)', min_T, t_min), 'FontSize', 10, 'Color', 'k');
+
+title('Daily Temperature Variation');
+xlabel('Time (hours)');
+ylabel('Temperature (°C)');
+xticks(0 : 2 : 24);
+grid on;
+hold off;
