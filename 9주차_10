@@ -1,0 +1,28 @@
+clear; clc;
+
+x = -6 : 0.1 : 6;
+y = -6 : 0.1 : 6;
+[X, Y] = meshgrid(x, y);
+
+Z = cos(X) .* sin(Y) .* exp(-0.05 * (X.^2 + Y.^2));
+
+figure;
+subplot(1, 2, 1);
+mesh(X, Y, Z);
+title('Mesh Plot');
+xlabel('x'); ylabel('y'); zlabel('z');
+
+subplot(1, 2, 2);
+contour(X, Y, Z, 20);
+title('Contour Plot');
+xlabel('x'); ylabel('y');
+colorbar;
+
+[max_val, idx] = max(Z(:));
+[row, col] = ind2sub(size(Z), idx);
+
+max_x = X(row, col);
+max_y = Y(row, col);
+
+fprintf('추정된 최대값(z): %.4f\n', max_val);
+fprintf('최대값의 위치: x = %.1f, y = %.1f\n', max_x, max_y);
