@@ -1,0 +1,21 @@
+clear; clc;
+
+t = 0 : 0.1 : 20;
+
+v = 5 * exp(-0.2 * t);
+
+figure;
+
+subplot(2, 1, 1);
+plot(t, v, 'b', 'LineWidth', 2);
+title('Velocity v(t) - Linear Scale');
+xlabel('Time (t)');
+ylabel('Velocity (v)');
+grid on;
+
+subplot(2, 1, 2);
+semilogy(t, v, 'r', 'LineWidth', 2);
+title('Velocity v(t) - Log Scale (semilogy)');
+xlabel('Time (t)');
+ylabel('log Velocity (v)');
+grid on;
