@@ -1,0 +1,16 @@
+clear; clc;
+
+t = 0 : 0.02 : 12*pi;
+
+x = (1 + 0.03 * t) .* cos(t);
+y = (1 + 0.03 * t) .* sin(t);
+z = 0.2 * t;
+
+plot3(x, y, z, 'LineWidth', 1.5);
+
+title('3D Parametric Curve: Spiral');
+xlabel('x axis');
+ylabel('y axis');
+zlabel('z axis');
+
+grid on;
