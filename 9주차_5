@@ -1,0 +1,15 @@
+clear; clc;
+
+x = 0 : 0.1 : 10;
+y1 = x.^2;
+y2 = exp(0.5 * x);
+
+[ax, h1, h2] = plotyy(x, y1, x, y2);
+
+title('Comparison of y_1 = x^2 and y_2 = e^{0.5x}');
+xlabel('x axis');
+
+ylabel(ax(1), 'y_1 = x^2');
+ylabel(ax(2), 'y_2 = e^{0.5x}');
+
+grid on;
