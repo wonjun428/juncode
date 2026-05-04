@@ -1,0 +1,27 @@
+clear; clc;
+
+t = [0, 1, 2, 3, 4, 5, 6];
+C = [12, 8.9, 6.6, 4.9, 3.6, 2.7, 2.0];
+
+figure;
+
+subplot(2, 1, 1);
+plot(t, C, 'ro-', 'LineWidth', 1.5, 'MarkerFaceColor', 'r');
+title('Concentration C(t) - Linear Scale');
+xlabel('Time (t)'); ylabel('Concentration (C)');
+grid on;
+
+subplot(2, 1, 2);
+semilogy(t, C, 'bs--', 'LineWidth', 1.5, 'MarkerFaceColor', 'b');
+title('Concentration C(t) - Log Scale');
+xlabel('Time (t)'); ylabel('log C(t)');
+grid on;
+
+y_log = log(C);
+p = polyfit(t, y_log, 1);
+
+k_estimated = -p(1);
+C0_estimated = exp(p(2));
+
+fprintf('추정된 감쇄 상수 k: %.4f\n', k_estimated);
+fprintf('추정된 초기 농도 C0: %.4f\n', C0_estimated);
