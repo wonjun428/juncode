@@ -1,0 +1,17 @@
+clear; clc;
+
+X = [3 7 2 5; 
+     5 9 4 6; 
+     8 12 7 10; 
+     10 15 9 13; 
+     14 18 12 16];
+
+col_mean = mean(X);
+
+Xc = X - col_mean;
+
+S = Xc' * Xc;
+
+fprintf('(a) 각 열의 평균:\n'); disp(col_mean);
+fprintf('(b) 중심화 행렬 Xc:\n'); disp(Xc);
+fprintf('(c) 행렬 S = Xc'' * Xc:\n'); disp(S);
