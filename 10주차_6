@@ -1,0 +1,41 @@
+x = -6 : 0.05 : 6;
+y = -6 : 0.05 : 6;
+
+
+[X, Y] = meshgrid(x, y);
+
+Z = exp(-0.08 * (X.^2 + Y.^2)) .* cos(3*X) .* sin(2*Y);
+
+figure(1);
+surf(X, Y, Z);
+shading interp;
+colorbar;
+xlabel('x'); ylabel('y'); zlabel('z');
+title('3D Surface Plot of Z');
+
+figure(2);
+contour(X, Y, Z, 30);
+grid on;
+xlabel('x'); ylabel('y');
+title('Contour Plot of Z (30 levels)');
+
+max_val = max(Z(:));
+min_val = min(Z(:));
+
+fprintf('--- (d) 결과 ---\n');
+fprintf('Z의 최댓값: %.6f\n', max_val);
+fprintf('Z의 최솟값: %.6f\n', min_val);
+
+[~, max_idx] = max(Z(:));
+[max_row, max_col] = ind2sub(size(Z), max_idx);
+max_x = X(max_row, max_col);
+max_y = Y(max_row, max_col);
+
+[~, min_idx] = min(Z(:));
+[min_row, min_col] = ind2sub(size(Z), min_idx);
+min_x = X(min_row, min_col);
+min_y = Y(min_row, min_col);
+
+fprintf('\n--- (e) 결과 ---\n');
+fprintf('최댓값 위치 -> x: %.2f, y: %.2f\n', max_x, max_y);
+fprintf('최솟값 위치 -> x: %.2f, y: %.2f\n', min_x, min_y);
