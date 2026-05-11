@@ -1,0 +1,28 @@
+t = 0 : 0.01 : 24;
+
+P_t = 50 + 18*sin(pi*t/12) + 6*cos(pi*t/4);
+
+figure;
+plot(t, P_t, 'b-', 'LineWidth', 1.5);
+hold on;
+grid on;
+xlabel('Time (hour)');
+ylabel('Power Consumption P(t)');
+title('Daily Power Consumption Model');
+
+[max_P, max_idx] = max(P_t);
+max_t = t(max_idx);
+
+[min_P, min_idx] = min(P_t);
+min_t = t(min_idx);
+
+plot(max_t, max_P, 'ro', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
+plot(min_t, min_P, 'bs', 'MarkerSize', 10, 'MarkerFaceColor', 'b');
+
+legend('P(t)', 'Peak Power', 'Lowest Power');
+
+fprintf('--- 분석 결과 ---\n');
+fprintf('(b) 최대 전력 사용량: %.4f\n', max_P);
+fprintf('(c) 최대 전력 발생 시간: %.2f 시\n', max_t);
+fprintf('(d) 최소 전력 사용량: %.4f\n', min_P);
+fprintf('(d) 최소 전력 발생 시간: %.2f 시\n', min_t);
