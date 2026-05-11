@@ -1,0 +1,27 @@
+X = [ 2   5   1;
+      4   8   3;
+      6  11   7;
+      9  15  10;
+     13  20  14];
+
+
+avg_X = mean(X);
+
+Xc = X - avg_X;
+
+S = Xc' * Xc;
+
+[V, D] = eig(S);
+eigenvalues = diag(D);
+
+
+[max_eig, idx] = max(eigenvalues);
+
+max_eig_vector = V(:, idx);
+
+fprintf('--- (a) 각 열의 평균 ---\n'); disp(avg_X);
+fprintf('--- (b) 중심화 행렬 Xc ---\n'); disp(Xc);
+fprintf('--- (c) 행렬 S (Xc'' * Xc) ---\n'); disp(S);
+fprintf('--- (d) S의 모든 고유값 ---\n'); disp(eigenvalues);
+fprintf('--- (e) 가장 큰 고유값: %.4f ---\n', max_eig);
+fprintf('--- (f) 가장 큰 고유값에 대응하는 고유벡터 ---\n'); disp(max_eig_vector);
