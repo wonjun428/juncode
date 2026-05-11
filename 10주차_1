@@ -1,0 +1,26 @@
+t = 0 : 0.01 : 30;
+
+f_t = exp(-0.12*t) .* sin(5*t) + 0.3 * cos(2*t);
+
+figure;
+plot(t, f_t, 'b', 'LineWidth', 1);
+xlabel('Time (t)');
+ylabel('f(t)');
+title('Signal Analysis and Local Maxima');
+grid on;
+hold on;
+
+u_t = exp(-0.12*t) + 0.3;
+l_t = -exp(-0.12*t) - 0.3;
+
+plot(t, u_t, 'r--', 'LineWidth', 1);
+plot(t, l_t, 'r--', 'LineWidth', 1);
+
+idx = find(f_t(2:end-1) > f_t(1:end-2) & f_t(2:end-1) > f_t(3:end)) + 1;
+
+plot(t(idx), f_t(idx), 'ko', 'MarkerSize', 6, 'LineWidth', 1.5);
+legend('f(t)', 'Envelopes', '', 'Local Maxima');
+
+result_table = table(t(idx)', f_t(idx)', 'VariableNames', {'Time_t', 'Value_f_t'});
+disp('--- 국소 최댓값 후보 결과 ---');
+disp(result_table);
