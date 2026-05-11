@@ -1,0 +1,28 @@
+A = [ 5,  2, -1;
+     -2,  6,  3;
+      1, -1,  7];
+  
+b = [ 8; 
+      5; 
+     12];
+
+x1 = inv(A) * b;
+
+x2 = A \ b;
+
+diff = x1 - x2;
+
+determinant_A = det(A);
+
+fprintf('--- (a) 계수행렬 A ---\n'); disp(A);
+fprintf('--- (a) 상수벡터 b ---\n'); disp(b);
+fprintf('--- (b) 역행렬 이용 해 (x1) ---\n'); disp(x1);
+fprintf('--- (c) 백슬래시 이용 해 (x2) ---\n'); disp(x2);
+fprintf('--- (d) 두 결과의 차이 (x1 - x2) ---\n'); disp(diff);
+fprintf('--- (e) 행렬식 det(A): %.4f ---\n', determinant_A);
+
+if determinant_A ~= 0
+    disp('결과: det(A)가 0이 아니므로 해가 유일하게 존재합니다.');
+else
+    disp('결과: det(A)가 0이므로 해가 존재하지 않거나 무수히 많습니다.');
+end
