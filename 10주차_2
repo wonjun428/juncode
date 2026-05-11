@@ -1,0 +1,30 @@
+x = -5 : 0.05 : 5;
+y = -5 : 0.05 : 5;
+[X, Y] = meshgrid(x, y);
+
+Z = sin(X .* Y) ./ (1 + X.^2 + Y.^2);
+
+figure(1);
+mesh(X, Y, Z);
+xlabel('x'); ylabel('y'); zlabel('z');
+title('3D Mesh Plot of z = sin(xy) / (1 + x^2 + y^2)');
+colorbar;
+
+figure(2);
+contour(X, Y, Z, 25);
+xlabel('x'); ylabel('y');
+title('Contour Plot (25 levels)');
+grid on;
+
+abs_Z = abs(Z);
+max_val = max(abs_Z, [], 'all');
+fprintf('(d) |Z|의 최댓값: %.6f\n', max_val);
+
+linear_idx = find(abs_Z == max_val);
+
+[row, col] = ind2sub(size(Z), linear_idx);
+
+max_x = X(row, col);
+max_y = Y(row, col);
+
+fprintf('(e) 최댓값 위치 -> x좌표: %.2f, y좌표: %.2f\n', max_x, max_y);
