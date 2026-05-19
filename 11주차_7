@@ -1,0 +1,23 @@
+clear; clc;
+
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/forestfires.csv';
+
+try
+    options = weboptions('CertificateCheck', 'off');
+    tempFile = websave('temp_forestfires.csv', url, options);
+    Fires = readtable(tempFile);
+    delete('temp_forestfires.csv');
+catch
+    Fires = readtable(url);
+end
+
+temp = Fires.temp;
+RH   = Fires.RH;
+wind = Fires.wind;
+rain = Fires.rain;
+area = Fires.area;
+
+HotDry = (temp >= 25) & (RH <= 35);
+HotDryFires = Fires(HotDry, :);
+
+HotDryFires(:, {'month', 'day', 'temp', 'RH', 'wind', 'area'})
