@@ -1,0 +1,8 @@
+H.RiskScore = H.age ./ H.ejection_fraction + H.serum_creatinine;
+
+idx_score = H.RiskScore >= 4;
+RiskScoreGroup = H(idx_score, :);
+
+RiskScoreGroup(:, {'age', 'ejection_fraction', 'serum_creatinine', 'RiskScore', 'DEATH_EVENT'})
+
+writetable(RiskScoreGroup, 'heart_risk_group.csv');
