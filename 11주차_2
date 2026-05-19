@@ -1,0 +1,29 @@
+clear; clc;
+
+D = [1 2.1  8 12;
+     2 3.4 13 19;
+     3 1.8  7 10;
+     4 5.2 21 31;
+     5 4.7 19 28;
+     6 6.0 25 36;
+     7 3.1 12 18;
+     8 5.8 24 35];
+
+writematrix(D, 'drone_delivery.txt');
+loaded_data = load('drone_delivery.txt');
+
+DistanceKm  = loaded_data(:, 2);
+TimeMin     = loaded_data(:, 3);
+BatteryUsed = loaded_data(:, 4);
+
+speed = DistanceKm ./ TimeMin;
+
+BatteryPerKm = BatteryUsed ./ DistanceKm;
+
+RouteID = loaded_data(:, 1);
+
+idx = BatteryPerKm > 6; 
+
+result_matrix = [RouteID(idx), DistanceKm(idx), BatteryPerKm(idx)];
+
+result_matrix
