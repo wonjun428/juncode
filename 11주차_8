@@ -1,0 +1,13 @@
+clear; clc;
+
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/forestfires.csv';
+Fire = readtable(url);
+
+Fire.RiskIndex = Fire.temp .* Fire.wind ./ Fire.RH;
+
+idx3 = (Fire.RiskIndex >= 2) & (Fire.area > 0);
+RiskFire = Fire(idx3, :);
+
+RiskFire(:, {'month', 'day', 'temp', 'RH', 'wind', 'area', 'RiskIndex'})
+
+writetable(RiskFire, 'forest_risk.csv');
