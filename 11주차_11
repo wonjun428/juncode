@@ -1,0 +1,11 @@
+H = readtable('heart_failure.csv');
+
+H.Properties.VariableNames
+
+idx_c = (H.age >= 70) & (H.ejection_fraction <= 35);
+HighRisk = H(idx_c, :);
+
+HighRisk(:, {'age', 'ejection_fraction', 'serum_creatinine', 'serum_sodium', 'DEATH_EVENT'})
+
+DeathGroup = H(H.DEATH_EVENT == 1, :);
+SurvivalGroup = H(H.DEATH_EVENT == 0, :);
