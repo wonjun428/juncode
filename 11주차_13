@@ -1,0 +1,16 @@
+PatientStatus = cell(height(H), 1);
+
+PatientStatus(H.RiskScore >= 4) = {'High'};
+PatientStatus(H.RiskScore >= 3 & H.RiskScore < 4) = {'Medium'};
+PatientStatus(H.RiskScore < 3) = {'Low'};
+
+H.PatientStatus = PatientStatus;
+
+idx_high_status = strcmp(H.PatientStatus, 'High');
+HighStatusGroup = H(idx_high_status, :);
+
+High_Count = height(HighStatusGroup)
+Medium_Count = sum(strcmp(H.PatientStatus, 'Medium'))
+Low_Count = sum(strcmp(H.PatientStatus, 'Low'))
+
+HighStatusGroup(:, {'age', 'ejection_fraction', 'RiskScore', 'PatientStatus', 'DEATH_EVENT'})
