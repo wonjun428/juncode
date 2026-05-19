@@ -1,0 +1,8 @@
+P = readtable('penguins.csv');
+P.Properties.VariableNames
+
+P_filtered = P(P.body_mass_g >= 4500, :);
+
+P_filtered(:, {'species', 'island', 'body_mass_g', 'sex'})
+
+LargeGentoo = P(strcmp(P.species, 'Gentoo') & P.body_mass_g >= 5000, :);
