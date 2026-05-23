@@ -1,0 +1,47 @@
+%% 6번 문제
+clear; clc;
+
+%% (a) 위 데이터를 table DeviceData로 생성하시오.
+Device = {'D1'; 'D2'; 'D3'; 'D4'; 'D5'; 'D6'; 'D7'; 'D8'; 'D9'; 'D10'; 'D11'; 'D12'};
+Power = [110; 130; 125; 160; 170; 150; 190; 200; 210; 180; 220; 240];
+Throughput = [42; 50; 48; 61; 65; 57; 72; 75; 79; 69; 83; 91];
+
+DeviceData = table(Device, Power, Throughput);
+
+fprintf('--- (a) 생성된 table DeviceData 출력 ---\n');
+disp(DeviceData);
+
+%% (b) Power와 Throughput을 점 표기법으로 각각 추출하시오.
+extracted_power = DeviceData.Power;
+extracted_throughput = DeviceData.Throughput;
+
+fprintf('--- (b) 점 표기법 데이터 추출 완료 ---\n');
+fprintf('Power 추출 완료 (크기: %d x %d)\n', size(extracted_power, 1), size(extracted_power, 2));
+fprintf('Throughput 추출 완료 (크기: %d x %d)\n\n', size(extracted_throughput, 1), size(extracted_throughput, 2));
+
+%% (c) 두 변수의 상관계수 행렬을 R에 저장하고, 상관계수 값 R(1,2)를 rValuee에 저장하시오.
+R = corrcoef(extracted_power, extracted_throughput);
+rValue = R(1, 2);
+
+fprintf('--- (c) 상관계수 분석 결과 ---\n');
+fprintf('상관계수 행렬 R:\n'); disp(R);
+fprintf('선택된 상관계수 값 (rValue) = %.4f\n\n', rValue);
+
+%% (d) rValue >= 0.7이면 'Strong correlation'을 출력하고, 그렇지 않으면 'Weak correlation'을 출력하시오.
+fprintf('--- (d) 상관관계 판정 출력 ---\n');
+if rValue >= 0.7
+    disp('Strong correlation');
+else
+    disp('Weak correlation');
+end
+fprintf('\n');
+
+%% (e) x축은 Power, y축은 Throughput으로 하여 scatter plot을 그리시오.
+figure;
+scatter(extracted_power, extracted_throughput, 60, 'b', 'filled');
+
+%% (f) 그래프에 x축 label, y축 label, title, grid를 추가하고, 축 글꼴 크기와 축 선 두께를 조정하시오.
+grid on;
+title('Correlation between Power and Throughput');
+xlabel('Power');
+ylabel('Throughput');
