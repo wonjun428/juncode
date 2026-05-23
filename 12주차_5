@@ -1,0 +1,56 @@
+%% 5번 문제
+clear; clc;
+
+rng('default');
+
+%% (a) 평균 50, 표준편차 5를 갖는 길이 100의 열벡터 y를 생성하시오.
+y = 5 * randn(100, 1) + 50;
+
+fprintf('--- (a) 원본 열벡터 y 생성 완료 (크기: %d x %d) ---\n\n', size(y, 1), size(y, 2));
+
+%% (b) y의 10번째, 25번째, 40번째, 70번째, 90번째 위치에 각각 90, 95, 5, 100, 0을 대입하여 이상치를 삽입하시오.
+y(10) = 90;
+y(25) = 95;
+y(40) = 5;
+y(70) = 100;
+y(90) = 0;
+
+fprintf('--- (b) 지정된 인덱스에 극단적 이상치 삽입 완료 ---\n\n');
+
+%% (c) quantile을 사용하여 1사분위수 Q1, 3사분위수 Q3를 계산하시오.
+Q1 = quantile(y, 0.25);
+Q3 = quantile(y, 0.75);
+
+fprintf('--- (c) 사분위수 계산 결과 ---\n');
+fprintf('Q1 (1사분위수) = %.4f\n', Q1);
+fprintf('Q3 (3사분위수) = %.4f\n\n', Q3);
+
+%% (d) IQR_val = Q3 - Q1을 계산하시오.
+IQR_val = Q3 - Q1;
+
+fprintf('--- (d) IQR 값 계산 ---\n');
+fprintf('IQR_val = %.4f\n\n', IQR_val);
+
+%% (e) IQR 기준 하한값 lower와 상한값 upper를 계산하시오.
+lower = Q1 - 1.5 * IQR_val;
+upper = Q3 + 1.5 * IQR_val;
+
+fprintf('--- (e) 이상치 판정 기준 영역 (하한값 및 상한값) ---\n');
+fprintf('하한값 (lower) = %.4f\n', lower);
+fprintf('상한값 (upper) = %.4f\n\n', upper);
+
+%% (f) IQR 기준 이상치 위치를 논리 벡터 idx_outlier에 저장하시오.
+idx_outlier = (y < lower) | (y > upper);
+
+fprintf('--- (f) 탐지된 이상치의 개수 및 위치 확인 ---\n');
+fprintf('탐지된 총 이상치 개수: %d개\n', sum(idx_outlier));
+fprintf('이상치 위치 논리 벡터(idx_outlier) 결과 출력:\n');
+disp(idx_outlier');
+
+%% (g) 이상치를 제외한 데이터만 y_clean에 저장하고, y_clean의 중앙값을 med_cleanen에 저장하시오.
+y_clean = y(~idx_outlier);
+med_clean = median(y_clean);
+
+fprintf('\n--- (g) 최종 정제 데이터 분석 ---\n');
+fprintf('정제 후 데이터 개수 (y_clean) : %d개\n', length(y_clean));
+fprintf('정제 후 데이터의 중앙값 (med_clean) : %.4f\n', med_clean);
