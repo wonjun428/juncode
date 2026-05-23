@@ -1,0 +1,73 @@
+%% 13번 문제
+clear; clc;
+
+%% (a) x=-5:0.05:5, y=-5:0.05:5로 정의하고, meshgrid를 이용하여 격자 행렬 X, Y를 생성하시오.
+x = -5:0.05:5;
+y = -5:0.05:5;
+[X, Y] = meshgrid(x, y);
+
+%% (b) 원소별 연산을 사용하여 곡면 높이 행렬 Z를 계산하시오.
+Z = exp(-0.08 * (X.^2 + Y.^2)) .* sin(3*X) .* cos(2*Y) + 0.15 * sin(X.*Y);
+
+%% (c) surf(X,Y,Z)를 이용하여 3차원 곡면 그래프를 그리시오.
+figure;
+h_surf = surf(X, Y, Z);
+hold on;
+
+%% (d) 곡면의 색 변화가 부드럽게 보이도록 shading interp를 적용하고, 색상 값을 해석할 수 있도록 colorbar를 추가하시오.
+shading interp;
+colorbar;
+
+%% (e) x축 label은 'x-axis', y축 label은 'y-axis', z축 label은 'z=f(x,y)'로 지정하시오.
+xlabel('x-axis');
+ylabel('y-axis');
+zlabel('z=f(x,y)');
+
+%% (f) 그래프 제목을 'Detailed Surface Plot of a Multivariable Function'으로 지정하시오.
+title('Detailed Surface Plot of a Multivariable Function');
+
+%% (g) grid on을 적용하고, 축 글꼴 크기를 12 이상으로 설정하시오.
+grid on;
+ax = gca;
+ax.FontSize = 12;
+
+%% (h) view(45,30)을 사용하여 그래프의 관찰 각도를 지정하시오.
+view(45, 30);
+
+%% (i) 같은 figure 안에 hold on을 사용하여 z = 0 평면을 반투명한 기준면으로 함께 표시하시오.
+Z0 = zeros(size(Z));
+h_plane = surf(X, Y, Z0, 'FaceColor', [0.5 0.5 0.5], 'EdgeColor', 'none'); 
+alpha(h_plane, 0.4);
+
+%% (j) 곡면의 최댓값과 최솟값을 각각 계산하여 maxZ, minZ에 저장하시오.
+maxZ = max(Z, [], 'all');
+minZ = min(Z, [], 'all');
+
+fprintf('--- (j) 곡면 해상도 분석 결과 ---\n');
+fprintf('곡면의 최댓값 (maxZ) = %.4f\n', maxZ);
+fprintf('곡면의 최솟값 (minZ) = %.4f\n\n', minZ);
+
+%% (k) 최대값과 최소값이 발생하는 위치의 (x, y, z) 좌표를 찾아 각각 maxPoint, minPoint라는 행벡터로 저장하시오.
+[r_max, c_max] = find(Z == maxZ, 1);
+[r_min, c_min] = find(Z == minZ, 1);
+maxPoint = [X(r_max, c_max), Y(r_max, c_max), maxZ];
+minPoint = [X(r_min, c_min), Y(r_min, c_min), minZ];
+
+fprintf('--- (k) 최적 좌표 탐색 결과 (행벡터) ---\n');
+fprintf('maxPoint [x, y, z] = [%.4f, %.4f, %.4f]\n', maxPoint(1), maxPoint(2), maxPoint(3));
+fprintf('minPoint [x, y, z] = [%.4f, %.4f, %.4f]\n\n', minPoint(1), minPoint(2), minPoint(3));
+
+%% (l) 최대점과 최소점을 그래프 위에 서로 다른 marker로 표시하고, 
+h_max = plot3(maxPoint(1), maxPoint(2), maxPoint(3), 'md', 'MarkerSize', 12, 'MarkerFaceColor', 'm', 'LineWidth', 2);
+h_min = plot3(minPoint(1), minPoint(2), minPoint(3), 'cp', 'MarkerSize', 12, 'MarkerFaceColor', 'c', 'LineWidth', 2);
+
+legend([h_surf, h_plane, h_max, h_min], ...
+    {'Surface', 'z=0 plane', 'Maximum point', 'Minimum point'}, 'Location', 'best');
+
+hold off;
+
+%% (m) 최종 그래프를 complex_surface.png라는 이름의 PNG 파일로 저장하시오.
+saveas(gcf, 'complex_surface.png');
+
+fprintf('--- (m) 이미지 저장 완료 ---\n');
+fprintf('현재 폴더에 ''complex_surface.png'' 파일이 성공적으로 저장되었습니다.\n');
