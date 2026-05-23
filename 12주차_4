@@ -1,0 +1,51 @@
+%% 4번 문제: 조건문과 반복문을 활용한 주파수 가변 신호 생성
+clear; clc;
+
+%% (a) 시간 축 벡터 t를 생성하시오.
+t = 0:0.001:2;
+
+%% (b) 각 원소 t_val에 대해 조건에 따른 주파수 f를 계산하고 신호 y를 생성하시오.
+y = zeros(size(t));
+
+for i = 1:length(t)
+    t_val = t(i);
+   
+    if t_val >= 0 && t_val < 0.5
+        f = 5;
+    elseif t_val >= 0.5 && t_val < 1.2
+        f = 15;
+    else
+        f = 30;
+    end
+    
+    y(i) = sin(2 * pi * f * t_val);
+end
+
+fprintf('--- (a), (b) 시간 벡터 t 및 신호 벡터 y 생성 완료 ---\n');
+fprintf('t의 크기: %d x %d\n', size(t, 1), size(t, 2));
+fprintf('y의 크기: %d x %d\n\n', size(y, 1), size(y, 2));
+
+%% (c) 생성된 신호 y를 2행 1열 구조의 위쪽(1번) subplot에 그리시오.
+figure;
+
+subplot(2, 1, 1);
+plot(t, y, 'b-', 'LineWidth', 1.5); % 파란색 실선
+grid on;
+title('Time Domain Signal y(t) with Variable Frequency');
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+xlim([0 2]); % 시간 축 범위를 0에서 2초로 고정
+
+%% (d) 전체 신호 y의 평균값을 구하여 mu_y에 저장하고, 
+mu_y = mean(y);
+
+fprintf('--- (d) 전체 신호 y의 평균값 (mu_y) ---\n');
+fprintf('mu_y = %.4f\n\n', mu_y);
+
+subplot(2, 1, 2);
+plot(t, y - mu_y, 'r--', 'LineWidth', 1.5);
+grid on;
+title('Zero-Mean Signal (y(t) - \mu_y)');
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+xlim([0 2]);
