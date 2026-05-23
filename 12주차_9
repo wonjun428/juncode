@@ -1,0 +1,75 @@
+%% 9번 문제
+clear; clc;
+
+%% [테스트용 임시 코드] train.csv 파일이 없을 때를 대비한 가짜 파일 자동 생성
+if ~exist('train.csv', 'file')
+    fprintf('-> 폴더에 train.csv가 없으므로 가짜 데이터를 임시 생성하여 테스트합니다.\n\n');
+    Temp_Survived = [0;1;1;0;0;0;1;0;1;1;0;1;0;0;0;1;0;1;0;1];
+    Temp_Age = [22;38;26;35;NaN;54;2;27;14;4;NaN;58;20;39;14;55;2;NaN;31;30];
+    Temp_Fare = [7.25; 71.2833; 7.925; 53.1; 8.05; 51.8625; 21.075; 11.1333; 30.0708; 16.7; ...
+                 26.55; 500.0; 8.05; 31.275; 7.8542; 16.0; 29.125; 13.0; 18.0; 26.0];
+    
+    T_temp = table(Temp_Survived, Temp_Age, Temp_Fare, 'VariableNames', {'Survived', 'Age', 'Fare'});
+    writetable(T_temp, 'train.csv');
+end
+
+%% (a) readtable을 사용하여 train.csv를 table T로 불러오시오.
+T = readtable('train.csv');
+
+fprintf('--- (a) train.csv 데이터 로드 완료 ---\n');
+fprintf('불러온 테이블 T의 크기: %d행 x %d열\n\n', size(T, 1), size(T, 2));
+
+%% (b) Age의 결측치 개수를 numMissingAge에 저장하시오.
+numMissingAge = sum(ismissing(T.Age));
+
+fprintf('--- (b) Age 변수의 결측치 개수 (numMissingAge) ---\n');
+fprintf('numMissingAge = %d\n\n', numMissingAge);
+
+%% (c) Age의 결측치를 Age 평균값으로 대체하시오. 단, 평균 계산 시 결측치는 제외하시오.
+meanAge_val = mean(T.Age, 'omitnan');
+T.Age(ismissing(T.Age)) = meanAge_val;
+
+fprintf('--- (c) Age 결측치 대체 완료 ---\n');
+fprintf('결측치 대체에 사용된 평균 나이: %.4f\n', meanAge_val);
+fprintf('대체 후 남아있는 Age 결측치 개수: %d개\n\n', sum(ismissing(T.Age)));
+
+%% (d) Fare의 평균 muFare와 표준편차 sigFare를 계산하시오.
+muFare = mean(T.Fare, 'omitnan');
+sigFare = std(T.Fare, 'omitnan');
+
+fprintf('--- (d) Fare의 평균(muFare) 및 표준편차(sigFare) ---\n');
+fprintf('muFare  = %.4f\n', muFare);
+fprintf('sigFare = %.4f\n\n', sigFare);
+
+%% (e) 3*sigma 기준으로 Fare 이상치가 아닌 행만 추출하여 table T_clean에 저장하시오.
+idx_fare_normal = abs(T.Fare - muFare) <= 3 * sigFare;
+T_clean = T(idx_fare_normal, :);
+
+fprintf('--- (e) Fare 이상치 3*sigma 기준 필터링 완료 ---\n');
+fprintf('정제 전 데이터 행 개수: %d\n', size(T, 1));
+fprintf('정제 후 데이터 행 개수 (T_clean): %d (제거된 이상치: %d개)\n\n', ...
+    size(T_clean, 1), size(T, 1) - size(T_clean, 1));
+
+%% (f) T_clean에서 Survived=0인 승객의 평균 나이를 meanAge0에 저장하시오.
+idx_dead = T_clean.Survived == 0;
+meanAge0 = mean(T_clean.Age(idx_dead));
+
+fprintf('--- (f) 사망자(Survived=0)의 평균 나이 (meanAge0) ---\n');
+fprintf('meanAge0 = %.4f\n\n', meanAge0);
+
+%% (g) T_clean에서 Survived=1인 승객의 평균 나이를 meanAge1에 저장하시오.
+idx_survived = T_clean.Survived == 1;
+meanAge1 = mean(T_clean.Age(idx_survived));
+
+fprintf('--- (g) 생존자(Survived=1)의 평균 나이 (meanAge1) ---\n');
+fprintf('meanAge1 = %.4f\n\n', meanAge1);
+
+%% (h) Survived와 평균 나이를 포함하는 table Result를 생성하시오.
+Result_Survived = [0; 1];
+Result_MeanAge = [meanAge0; meanAge1];
+
+Result = table(Result_Survived, Result_MeanAge, ...
+    'VariableNames', {'Survived', 'MeanAge'});
+
+fprintf('--- (h) 최종 요약 table Result 출력 ---\n');
+disp(Result);
