@@ -1,0 +1,58 @@
+%% 7번 문제
+clear; clc;
+
+%% (a) 위 데이터를 table Battery로 생성하시오.
+Material = {'A'; 'A'; 'A'; 'A'; 'B'; 'B'; 'B'; 'B'; 'C'; 'C'; 'C'; 'C'};
+EnergyDensity = [245; 252; 238; 260; 310; 295; 305; 318; 180; 190; 176; 185];
+
+Battery = table(Material, EnergyDensity);
+
+fprintf('--- (a) 생성된 table Battery 출력 ---\n');
+disp(Battery);
+
+%% (b) strcmp 또는 문자열 비교를 이용하여 소재 A, B, C에 해당하는 논리 인덱스를 각각 생성하시오.
+idxA = strcmp(Battery.Material, 'A');
+idxB = strcmp(Battery.Material, 'B');
+idxC = strcmp(Battery.Material, 'C');
+
+fprintf('--- (b) 소재별 논리 인덱스 생성 완료 (참값 개수 확인) ---\n');
+fprintf('소재 A의 데이터 개수: %d개\n', sum(idxA));
+fprintf('소재 B의 데이터 개수: %d개\n', sum(idxB));
+fprintf('소재 C의 데이터 개수: %d개\n\n', sum(idxC));
+
+%% (c) logical indexing을 이용하여 소재 A, B, C의 평균 에너지 밀도를 각각 meanA, meanB, meanC에 저장하시오.
+meanA = mean(Battery.EnergyDensity(idxA));
+meanB = mean(Battery.EnergyDensity(idxB));
+meanC = mean(Battery.EnergyDensity(idxC));
+
+fprintf('--- (c) 논리 인덱싱 기반 소재별 평균 에너지 밀도 ---\n');
+fprintf('meanA = %.4f\n', meanA);
+fprintf('meanB = %.4f\n', meanB);
+fprintf('meanC = %.4f\n\n', meanC);
+
+%% (d) 소재 A, B, C의 표준편차를 각각 stdA, stdB, stdC에 저장하시오.
+stdA = std(Battery.EnergyDensity(idxA));
+stdB = std(Battery.EnergyDensity(idxB));
+stdC = std(Battery.EnergyDensity(idxC));
+
+fprintf('--- (d) 소재별 에너지 밀도 표준편차 ---\n');
+fprintf('stdA = %.4f\n', stdA);
+fprintf('stdB = %.4f\n', stdB);
+fprintf('stdC = %.4f\n\n', stdC);
+
+%% (e) 소재명, 평균, 표준편차를 포함하는 요약 table Summary를 생성하시오.
+Summary_Material = {'A'; 'B'; 'C'};
+Summary_Mean = [meanA; meanB; meanC];
+Summary_Std = [stdA; stdB; stdC];
+
+Summary = table(Summary_Material, Summary_Mean, Summary_Std, ...
+    'VariableNames', {'Material', 'Mean_EnergyDensity', 'Std_EnergyDensity'});
+
+fprintf('--- (e) 수동으로 생성한 요약 table Summary 출력 ---\n');
+disp(Summary);
+
+%% (f) 같은 데이터를 이용하여 groupsummary로 평균과 표준편차를 계산한 table G를 생성하시오.
+G = groupsummary(Battery, 'Material', {'mean', 'std'}, 'EnergyDensity');
+
+fprintf('--- (f) groupsummary 내장 함수로 생성한 요약 table G 출력 ---\n');
+disp(G);
