@@ -1,0 +1,44 @@
+%% 8번 문제
+clear; clc;
+
+%% (a) 위 데이터를 table Robot으로 생성하시오.
+Speed = [1.2; 1.5; 1.7; 2.0; 2.2; 2.4; 2.6; 2.8; 3.0; 3.2; 3.4; 3.6; 3.8; 4.0; 4.2];
+Torque = [15; 18; 21; 24; 26; 29; 31; 35; 38; 41; 43; 47; 50; 54; 58];
+SlipRate = [0.08; 0.10; 0.12; 0.15; 0.18; 0.21; 0.22; 0.25; 0.27; 0.30; 0.33; 0.35; 0.39; 0.42; 0.45];
+EnergyUse = [42; 48; 53; 61; 66; 72; 77; 85; 91; 98; 105; 113; 121; 130; 140];
+
+Robot = table(Speed, Torque, SlipRate, EnergyUse);
+
+fprintf('--- (a) 생성된 table Robot 출력 (총 15행) ---\n');
+disp(Robot);
+
+%% (b) table2array를 사용하여 네 개의 숫자 변수를 행렬 X로 변환하시오.
+X = table2array(Robot);
+
+fprintf('--- (b) 행렬 X 변환 완료 ---\n');
+fprintf('행렬 X의 크기: %d x %d\n\n', size(X, 1), size(X, 2));
+
+%% (c) plotmatrix(X)를 이용하여 변수 간 산점도 행렬을 그리시오.
+figure;
+plotmatrix(X);
+
+title('Scatter Plot Matrix of Robot Experiment Data');
+grid on;
+
+%% (d) 각 변수의 분산을 계산하여 행벡터 varVec에 저장하시오.
+varVec = var(X);
+
+fprintf('--- (d) 각 변수의 분산 행벡터 (varVec) ---\n');
+disp(varVec);
+
+%% (e) varVec에서 가장 큰 값을 갖는 위치를 idxMax에 저장하시오.
+[~, idxMax] = max(varVec);
+
+fprintf('--- (e) 가장 큰 분산 값을 갖는 위치 (idxMax) ---\n');
+fprintf('idxMax = %d\n\n', idxMax);
+
+%% (f) Robot.Properties.VariableNames를 이용하여 가장 분산이 큰 변수의 이름을 maxVarName에 저장하시오.
+maxVarName = Robot.Properties.VariableNames{idxMax};
+
+fprintf('--- (f) 가장 분산이 큰 변수의 이름 (maxVarName) ---\n');
+fprintf('maxVarName = ''%s''\n', maxVarName);
