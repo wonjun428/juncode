@@ -1,0 +1,58 @@
+%% 1번 문제
+
+
+%% (a) 원본 벡터 x를 생성하시오.
+x = [21, 22, NaN, 23, 24, 120, 25, NaN, 26, 27];
+fprintf('--- (a) 원본 벡터 x ---\n');
+disp(x);
+
+%% (b) isnan을 사용하여 결측치 위치를 논리 벡터 idx_missing에 저장하시오.
+idx_missing = isnan(x);
+fprintf('--- (b) 결측치 위치 (idx_missing) ---\n');
+disp(idx_missing);
+
+%% (c) 결측치를 제외하고 계산한 평균을 mu0, 표준편차를 sig0에 저장하시오.
+mu0 = mean(x, 'omitnan');
+sig0 = std(x, 'omitnan');
+fprintf('--- (c) 결측치 제외 평균(mu0) 및 표준편차(sig0) ---\n');
+fprintf('mu0  = %.4f\n', mu0);
+fprintf('sig0 = %.4f\n\n', sig0);
+
+%% (d) 평균에서 3*sigma를 초과하여 벗어난 값을 이상치로 정의하고, 이상치 위치를 논리 벡터 idx_outlier에 저장하시오.
+idx_outlier = abs(x - mu0) > 3 * sig0;
+fprintf('--- (d) 이상치 위치 (idx_outlier) ---\n');
+disp(idx_outlier);
+
+%% (e) 원본 벡터를 복사하여 x_temp를 만들고, x_temp에서 결측치와 이상치 위치를 모두 NaN으로 바꾸시오.
+x_temp = x;
+x_temp(idx_missing | idx_outlier) = NaN;
+fprintf('--- (e) 결측치 및 이상치가 제거된 x_temp ---\n');
+disp(x_temp);
+
+%% (f) x_temp의 NaN 값을 x_temp의 평균값으로 대체하여 최종 정제 벡터 x_clean을 생성하시오.
+mu_temp = mean(x_temp, 'omitnan');
+x_clean = x_temp;
+x_clean(isnan(x_clean)) = mu_temp;
+fprintf('--- (f) 최종 정제 벡터 x_clean ---\n');
+disp(x_clean);
+
+%% (g) 최종 x_clean의 평균과 표준편차를 각각 mu_clean, sig_clean에 저장하시오.
+mu_clean = mean(x_clean);
+sig_clean = std(x_clean);
+fprintf('--- (g) 정제 후 평균(mu_clean) 및 표준편차(sig_clean) ---\n');
+fprintf('mu_clean  = %.4f\n', mu_clean);
+fprintf('sig_clean = %.4f\n\n', sig_clean);
+
+%% (h) 원본 데이터 x와 정제 데이터 x_clean을 하나의 figure에 서로 다른 선 모양으로 나타내시오.
+figure;
+plot(x, '-o', 'LineWidth', 1.5, 'MarkerFaceColor', 'b');
+hold on;
+plot(x_clean, '--s', 'LineWidth', 1.5, 'MarkerFaceColor', 'r');
+hold off;
+
+% 그래프 꾸미기 (Live Script 및 PDF 출력용)
+grid on;
+title('Sensor Data Preprocessing (Original vs Cleaned)');
+xlabel('Index');
+ylabel('Temperature');
+legend('Original (x)', 'Cleaned (x\_clean)', 'Location', 'best');
