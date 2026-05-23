@@ -1,0 +1,91 @@
+%% 12번 문제
+clear; clc;
+
+%% (a) 난수 결과가 재현되도록 난수 seed를 고정하시오.
+rng('default');
+
+%% (b) t = 1, 2, ..., 120인 열벡터를 생성하시오.
+t = (1:120)';
+
+%% (c) signal = 30 + 4*sin(t/8) + randn(120,1) 형태의 열벡터 signal을 생성하시오.
+signal = 30 + 4*sin(t/8) + randn(120, 1);
+
+%% (d) signal의 15번째, 45번째, 90번째 값을 NaN으로 바꾸시오.
+signal(15) = NaN;
+signal(45) = NaN;
+signal(90) = NaN;
+
+%% (e) signal의 30번째 값은 80, 75번째 값은 -20, 110번째 값은 95로 바꾸어 이상치를 삽입하시오.
+signal(30) = 80;
+signal(75) = -20;
+signal(110) = 95;
+
+%% (f) 결측치 위치를 논리 벡터 idxMissing에 저장하고, 결측치 개수를 numMissing에 저장하시오.
+idxMissing = isnan(signal);
+numMissing = sum(idxMissing);
+
+fprintf('--- (f) 결측치 검출 결과 ---\n');
+fprintf('검출된 결측치 개수 (numMissing) = %d개\n\n', numMissing);
+
+%% (g) 결측치를 제외하고 계산한 평균을 사용하여 결측치를 대체한 벡터 signalFilled를 생성하시오.
+meanForFill = mean(signal, 'omitnan');
+
+signalFilled = signal;
+signalFilled(idxMissing) = meanForFill;
+
+fprintf('--- (g) 결측치 대체 완료 ---\n');
+fprintf('결측치 대체에 사용된 평균값: %.4f\n\n', meanForFill);
+
+%% (h) signalFilled의 평균과 표준편차를 이용하여 3*sigma 기준 이상치 위치를 논리 벡터 idxOutlier에 저장하시오.
+mu_filled = mean(signalFilled);
+sig_filled = std(signalFilled);
+
+idxOutlier = abs(signalFilled - mu_filled) > 3 * sig_filled;
+
+fprintf('--- (h) 3*sigma 이상치 탐지 완료 ---\n');
+fprintf('탐지된 이상치 개수: %d개\n', sum(idxOutlier));
+fprintf('이상치 위치 인덱스 번호들: '); 
+disp(find(idxOutlier)');
+
+%% (i) signalFilled를 복사하여 signalClean을 만들고, 이상치 위치의 값을 NaN으로 바꾸시오.
+signalClean = signalFilled;
+signalClean(idxOutlier) = NaN;
+
+%% (j) signalClean에서 NaN이 아닌 값만 추출하여 validSignal에 저장하시오.
+validSignal = signalClean(~isnan(signalClean));
+
+fprintf('\n--- (j) 정제 완료된 유효 신호 상태 ---\n');
+fprintf('validSignal의 총 크기(길이): %d\n\n', length(validSignal));
+
+%% (k) validSignal을 Min-Max 정규화하여 normSignal에 저장하시오.
+v_min = min(validSignal);
+v_max = max(validSignal);
+normSignal = (validSignal - v_min) / (v_max - v_min);
+
+%% (l) normSignal의 평균과 분산을 각각 finalMean, finalVar에 저장하시오.
+finalMean = mean(normSignal);
+finalVar = var(normSignal);
+
+fprintf('--- (l) 최종 정규화 신호의 통계량 ---\n');
+fprintf('최종 평균 (finalMean) = %.4f\n', finalMean);
+fprintf('최종 분산 (finalVar)  = %.4f\n\n', finalVar);
+
+%% (m) validSignal과 normSignal을 하나의 figure에서 위아래 두 개의 tile로 나타내시오.
+figure;
+t_layout = tiledlayout(2, 1);
+
+nexttile;
+plot(validSignal, 'b-', 'LineWidth', 1.5);
+grid on;
+title('Cleaned Valid Signal');
+xlabel('Sample Index');
+ylabel('Amplitude');
+
+nexttile;
+plot(normSignal, 'r-', 'LineWidth', 1.5);
+grid on;
+title('Min-Max Normalized Signal');
+xlabel('Sample Index');
+ylabel('Normalized Value');
+
+title(t_layout, 'Signal Processing & Normalization Dashboard');
