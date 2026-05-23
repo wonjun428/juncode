@@ -1,0 +1,46 @@
+%% 2번 문제
+clear; clc;
+
+%% (a) 숫자 행렬 A를 생성하시오.
+A = [10, 200, 0.5;
+     12, 180, 0.7;
+     15, 220, 0.6;
+     20, 250, 0.9;
+     25, 300, 1.1];
+
+fprintf('--- (a) 원본 행렬 A ---\n');
+disp(A);
+
+%% (b) 각 열의 최솟값을 행벡터 colMin, 최댓값을 행벡터 colMax에 저장하시오.
+colMin = min(A);
+colMax = max(A);
+
+fprintf('--- (b) 각 열의 최솟값(colMin) 및 최댓값(colMax) ---\n');
+fprintf('colMin = '); disp(colMin);
+fprintf('colMax = '); disp(colMax);
+
+%% (c) 각 열을 독립적으로 Min-Max 정규화하여 5 x 3 크기의 행렬 A_norm을 생성하시오.
+A_norm = (A - colMin) ./ (colMax - colMin);
+
+fprintf('--- (c) Min-Max 정규화된 행렬 A_norm ---\n');
+disp(A_norm);
+
+%% (d) 정규화된 행렬 A_norm에서 각 행의 평균값을 계산하여 5 x 1 열벡터 rowMean에 저장하시오.
+rowMean = mean(A_norm, 2);
+
+fprintf('--- (d) 각 행의 평균값 열벡터 (rowMean) ---\n');
+disp(rowMean);
+
+%% (e) rowMean이 가장 큰 행의 번호를 idx에 저장하시오.
+[~, idx] = max(rowMean);
+
+fprintf('--- (e) rowMean이 가장 큰 행의 번호 (idx) ---\n');
+fprintf('idx = %d\n\n', idx);
+
+%% (f) idx에 해당하는 원본 행을 bestOriginal, 정규화된 행을 bestNormalized에 저장하시오.
+bestOriginal = A(idx, :);
+bestNormalized = A_norm(idx, :);
+
+fprintf('--- (f) 최적 행 데이터 분석 (행 번호: %d) ---\n', idx);
+fprintf('bestOriginal   = '); disp(bestOriginal);
+fprintf('bestNormalized = '); disp(bestNormalized);
