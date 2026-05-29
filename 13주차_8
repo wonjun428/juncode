@@ -1,0 +1,33 @@
+%% 8번 문제
+clear; clc;
+
+% 문제 조건 설정
+p = [0.72, 0.81, 0.67, 0.90, 0.76];
+num_simulations = 100000;
+
+%% (a) 100000 x 5 크기의 난수 행렬을 생성하시오.
+rand_matrix = rand(num_simulations, 5);
+
+%% (b) 각 열마다 다른 감지 확률 p_i가 적용되도록 logical matrix를 생성하시오.
+detection_matrix = rand_matrix <= p;
+
+%% (c) 각 실험에서 감지한 모듈 수를 계산하시오.
+detected_counts = sum(detection_matrix, 2);
+
+%% (d) 3개 이상 감지한 경우를 시스템 성공으로 정의하고 감지 확률을 계산하시오.
+system_success = (detected_counts >= 3);
+system_success_rate = sum(system_success) / num_simulations;
+
+fprintf('--- 보안 시스템 시뮬레이션 결과 ---\n');
+fprintf('시스템이 침입을 성공적으로 감지할 확률: %.2f%%\n', system_success_rate * 100);
+fprintf('------------------------------------\n\n');
+
+%% (e) 감지한 모듈 수 0, 1, ..., 5에 대한 histogram을 그리시오.
+figure;
+histogram(detected_counts, 'BinEdges', -0.5:1:5.5, 'FaceColor', [0.2 0.7 0.6], 'EdgeColor', 'w');
+
+grid on;
+title('침입 상황별 감지된 모듈 수 분포 (Histogram)');
+xlabel('감지된 모듈 수 (개)');
+ylabel('실험 횟수 (번)');
+xticks(0:5);
