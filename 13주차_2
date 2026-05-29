@@ -1,0 +1,35 @@
+%% 2번 문제
+clear; clc;
+
+%% (a) randn을 이용하여 10000 x 20 크기의 제품 무게 행렬을 생성하시오.
+mu = 100;
+sigma = 4;
+weights_matrix = mu + sigma * randn(10000, 20);
+
+%% (b) 각 상자의 평균 무게를 계산하시오.
+box_means = mean(weights_matrix, 2);
+
+%% (c) 불합격 조건을 logical vector로 정의하시오.
+failed_condition = (box_means < 98) | (box_means > 102);
+
+%% (d) 전체 상자 중 불합격 상자의 비율을 계산하시오.
+failure_rate = sum(failed_condition) / 10000;
+
+fprintf('--- 품질검사 결과 요약 ---\n');
+fprintf('시뮬레이션된 총 상자 수: 10,000 개\n');
+fprintf('추정된 불합격률: %.2f%%\n', failure_rate * 100);
+fprintf('-------------------------\n\n');
+
+%% (e) 상자 평균 무게의 histogram을 그리고, 98과 102 위치에 기준선을 표시하시오.
+figure;
+histogram(box_means, 'FaceColor', [0.9 0.4 0.4], 'EdgeColor', 'w');
+hold on;
+
+xline(98, '--r', '98g (불합격 기준)', 'LineWidth', 2, 'LabelVerticalAlignment', 'top');
+xline(102, '--r', '102g (불합격 기준)', 'LineWidth', 2, 'LabelVerticalAlignment', 'top');
+
+grid on;
+title('10,000개 상자의 평균 무게 분포 및 불합격 기준선');
+xlabel('상자별 평균 무게 (g)');
+ylabel('상자 수 (개)');
+hold off;
