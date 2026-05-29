@@ -1,0 +1,61 @@
+%% 4번 문제
+clear; clc;
+
+%% (a) 툴박스 없이 365일의 주문 수(포아송 분포)를 생성하시오.
+lambda_val = 180;
+daily_orders = zeros(365, 1);
+
+daily_orders = round(lambda_val + sqrt(lambda_val) * randn(365, 1));
+daily_orders(daily_orders < 0) = 0;
+
+%% (b) 각 날짜별 주문 수만큼 처리 시간을 생성하여 하루 총 처리 시간을 계산하시오.
+daily_total_times = zeros(365, 1);
+
+mu_time = 6;
+sigma_time = 2;
+
+for day = 1:365
+    N = daily_orders(day);
+    
+    if N > 0
+        order_times = mu_time + sigma_time * randn(N, 1);
+        
+        order_times(order_times < 0) = 0;
+        
+        daily_total_times(day) = sum(order_times);
+    else
+        daily_total_times(day) = 0;
+    end
+end
+
+%% (c) 하루 총 처리 시간이 1200분을 초과하는 날의 비율을 계산하시오.
+exceed_days_ratio = sum(daily_total_times > 1200) / 365;
+
+fprintf('--- 배송센터 시뮬레이션 결과 ---\n');
+fprintf('하루 총 처리 시간이 1200분을 초과하는 날의 비율: %.2f%%\n', exceed_days_ratio * 100);
+fprintf('---------------------------------\n\n');
+
+%% (d) 하루 주문 수와 하루 총 처리 시간을 각각 그래프로 나타내시오.
+figure;
+
+subplot(2, 1, 1);
+plot(1:365, daily_orders, 'b-', 'LineWidth', 1.5);
+grid on;
+title('365일간의 일별 주문 수 추이 (통계 툴박스 미사용 우회)');
+xlabel('날짜 (일)');
+ylabel('주문 수 (건)');
+
+subplot(2, 1, 2);
+plot(1:365, daily_total_times, 'r-', 'LineWidth', 1.5);
+grid on;
+title('365일간의 일별 총 처리 시간 추이');
+xlabel('날짜 (일)');
+ylabel('총 처리 시간 (분)');
+
+%% (e) 하루 주문 수와 하루 총 처리 시간 사이의 관계를 scatter plot으로 나타내시오.
+figure;
+scatter(daily_orders, daily_total_times, 40, 'm', 'filled');
+grid on;
+title('하루 주문 수와 하루 총 처리 시간의 관계 (Scatter Plot)');
+xlabel('하루 주문 수 (건)');
+ylabel('하루 총 처리 시간 (분)');
