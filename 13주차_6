@@ -1,0 +1,47 @@
+%% 6번 문제
+clear; clc;
+
+initial_asset = 100;
+mu_return = 0.0008;
+sigma_return = 0.015;
+num_simulations = 5000;
+num_days = 60;
+
+%% (a) 5000 x 60 크기의 일별 수익률 행렬을 생성하시오.
+R = mu_return + sigma_return * randn(num_simulations, num_days);
+
+%% (b) 각 경로에 대해 누적 자산가치를 계산하시오.
+asset_paths = initial_asset * cumprod(1 + R, 2);
+
+%% (c) 마지막 날 자산가치의 평균, 최솟값, 최댓값을 출력하시오.
+final_assets = asset_paths(:, end);
+
+mean_final = mean(final_assets);
+min_final = min(final_assets);
+max_final = max(final_assets);
+
+fprintf('--- 마지막 날(60일 차) 자산가치 통계 ---\n');
+fprintf('평균 자산가치: %.2f\n', mean_final);
+fprintf('최소 자산가치: %.2f\n', min_final);
+fprintf('최대 자산가치: %.2f\n', max_final);
+fprintf('----------------------------------------\n\n');
+
+%% (d) 마지막 날 자산가치가 100보다 작을 확률을 추정하시오.
+loss_event = (final_assets < 100);
+prob_less_than_100 = sum(loss_event) / num_simulations;
+
+fprintf('마지막 날 자산가치가 100보다 작을 확률: %.2f%%\n', prob_less_than_100 * 100);
+fprintf('----------------------------------------\n\n');
+
+%% (e) 임의로 선택한 30개 경로를 하나의 그래프에 표시하시오.
+rand_indices = randperm(num_simulations, 30);
+
+plot_paths = [ones(30, 1) * initial_asset, asset_paths(rand_indices, :)];
+
+figure;
+plot(0:num_days, plot_paths', 'LineWidth', 1.2);
+
+grid on;
+title('임의로 선택된 30개의 자산 가치 경로 시뮬레이션');
+xlabel('기간 (일)');
+ylabel('자산 가치');
