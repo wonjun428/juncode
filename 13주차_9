@@ -1,0 +1,63 @@
+%% 9번 문제
+clear; clc;
+
+num_products = 50000;
+p1 = 0.94;
+p2 = 0.91;
+p3 = 0.88;
+
+%% (a) 1단계 통과 여부를 logical vector로 생성하시오.
+pass_stage1 = rand(num_products, 1) <= p1;
+
+%% (b) 1단계를 통과한 제품에 대해서만 2단계 통과 여부를 생성하시오.
+pass_stage2 = false(num_products, 1);
+
+num_pass1 = sum(pass_stage1);
+
+pass_stage2(pass_stage1) = rand(num_pass1, 1) <= p2;
+
+%% (c) 2단계까지 통과한 제품에 대해서만 3단계 통과 여부를 생성하시오.
+pass_stage3 = false(num_products, 1);
+
+num_pass2 = sum(pass_stage2);
+
+pass_stage3(pass_stage2) = rand(num_pass2, 1) <= p3;
+
+%% (d) 최종 합격률을 계산하시오.
+final_pass_count = sum(pass_stage3);
+final_pass_rate = final_pass_count / num_products;
+
+fail_stage1_count = num_products - num_pass1;
+fail_stage2_count = num_pass1 - num_pass2;
+fail_stage3_count = num_pass2 - final_pass_count;
+
+fprintf('--- 제조 공정 시뮬레이션 결과 ---\n');
+fprintf('1단계 탈락 제품 수: %d 개\n', fail_stage1_count);
+fprintf('2단계 탈락 제품 수: %d 개\n', fail_stage2_count);
+fprintf('3단계 탈락 제품 수: %d 개\n', fail_stage3_count);
+fprintf('최종 합격 제품 수: %d 개\n', final_pass_count);
+fprintf('최종 합격률: %.2f%%\n', final_pass_rate * 100);
+fprintf('----------------------------------\n\n');
+
+%% (e) 각 단계에서 탈락한 제품 수와 최종 합격 제품 수를 bar graph로 나타내시오.
+figure;
+
+graph_data = [fail_stage1_count, fail_stage2_count, fail_stage3_count, final_pass_count];
+categories = {'1단계 탈락', '2단계 탈락', '3단계 탈락', '최종 합격'};
+
+b = bar(categorical(categories, categories), graph_data, 'FaceColor', 'flat');
+
+b.CData(1,:) = [0.85 0.33 0.10];
+b.CData(2,:) = [0.93 0.69 0.13];
+b.CData(3,:) = [0.49 0.18 0.56];
+b.CData(4,:) = [0.47 0.67 0.19];
+
+xtips = b.XEndPoints;
+ytips = b.YEndPoints;
+labels = string(graph_data) + "개";
+text(xtips, ytips, labels, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
+
+grid on;
+title('공정 단계별 결과 분석 (50,000개 기준)');
+ylabel('제품 수 (개)');
+ylim([0, max(graph_data) * 1.15]);
