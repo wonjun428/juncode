@@ -1,0 +1,37 @@
+%% 5번 문제
+clear; clc;
+
+true_temp = 25;
+mu_error = 0;
+sigma_error = 0.8;
+
+%% (a) 10000번의 반복 측정을 가정하여 10000 x 30 크기의 측정값 행렬을 생성하시오.
+sensor_matrix = true_temp + mu_error + sigma_error * randn(10000, 30);
+
+%% (b) 각 반복 측정에서 30개 센서의 평균값을 계산하시오.
+avg_temps = mean(sensor_matrix, 2);
+
+%% (c) 평균 측정값이 24.7 이상 25.3 이하인 사건을 정의하시오.
+in_range_event = (avg_temps >= 24.7) & (avg_temps <= 25.3);
+
+%% (d) 해당 사건의 확률을 추정하시오.
+estimated_prob = sum(in_range_event) / 10000;
+
+fprintf('--- 센서 네트워크 시뮬레이션 결과 ---\n');
+fprintf('평균 측정값이 실제 온도에서 0.3도 이내(24.7 ~ 25.3)에 들어올 확률: %.2f%%\n', estimated_prob * 100);
+fprintf('------------------------------------\n\n');
+
+%% (e) 센서 1개만 사용할 때와 센서 30개 평균을 사용할 때의 측정값 분포를 histogram으로 비교하시오.
+figure;
+
+histogram(sensor_matrix(:, 1), 'FaceColor', [0.2 0.4 0.8], 'EdgeColor', 'none', 'FaceAlpha', 0.5);
+hold on;
+
+histogram(avg_temps, 'FaceColor', [0.8 0.2 0.2], 'EdgeColor', 'none', 'FaceAlpha', 0.5);
+
+grid on;
+title('센서 개수에 따른 측정값 분포 비교 (Histogram)');
+xlabel('측정된 온도 (도)');
+ylabel('빈도 (번)');
+legend('센서 1개만 사용', '센서 30개 평균 사용', 'Location', 'northwest');
+hold off;
