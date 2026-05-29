@@ -1,0 +1,33 @@
+%% 3번 문제
+clear; clc;
+
+%% (a) N ~ N(0, 1) 난수 100000개를 생성하시오.
+N = randn(100000, 1);
+
+%% (b) S = 1.8 + N을 계산하시오.
+A = 1.8;
+S = A + N;
+
+%% (c) S >= 1.2인 사건을 logical vector로 정의하시오.
+detection_success = (S >= 1.2);
+
+%% (d) 감지 성공률을 계산하시오.
+success_rate = sum(detection_success) / 100000;
+
+fprintf('--- 신호 감지 시뮬레이션 결과 ---\n');
+fprintf('총 수신 실험 횟수: 100,000 번\n');
+fprintf('추정된 신호 감지 성공률: %.2f%%\n', success_rate * 100);
+fprintf('---------------------------------\n\n');
+
+%% (e) S의 histogram을 그리고, 임계값 1.2를 기준선으로 표시하시오.
+figure;
+histogram(S, 'FaceColor', [0.3 0.7 0.4], 'EdgeColor', 'w');
+hold on;
+
+xline(1.2, '--r', '임계값 (1.2)', 'LineWidth', 2, 'LabelVerticalAlignment', 'top');
+
+grid on;
+title('수신 신호 세기 S의 분포 및 감지 임계값');
+xlabel('수신 신호 세기 (S)');
+ylabel('실험 횟수 (번)');
+hold off;
