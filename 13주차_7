@@ -1,0 +1,56 @@
+%% 7번 문제
+clear; clc;
+
+num_patients = 300;
+mean_arrival_interval = 8;
+mu_service = 10;
+sigma_service = 3;
+
+%% (a) 환자 간 도착 간격 300개를 생성하고, cumsum으로 도착 시각을 계산하시오.
+
+arrival_intervals = -mean_arrival_interval * log(rand(num_patients, 1));
+
+arrival_times = cumsum(arrival_intervals);
+
+
+%% (b) 각 환자의 진료 시간을 생성하시오. (단, 음수 진료 시간은 1분으로 대체)
+service_times = mu_service + sigma_service * randn(num_patients, 1);
+
+service_times(service_times < 0) = 1;
+
+
+%% (c) 각 환자의 진료 시작 시각과 종료 시각을 계산하시오.
+start_times = zeros(num_patients, 1);
+end_times = zeros(num_patients, 1);
+
+start_times(1) = arrival_times(1);
+end_times(1) = start_times(1) + service_times(1);
+
+for p = 2:num_patients
+    start_times(p) = max(arrival_times(p), end_times(p-1));
+    
+    end_times(p) = start_times(p) + service_times(p);
+end
+
+
+%% (d) 각 환자의 대기시간을 계산하시오.
+waiting_times = start_times - arrival_times;
+
+
+%% (e) 통계치를 출력하고 대기시간 histogram을 그리시오.
+mean_wait = mean(waiting_times);
+max_wait = max(waiting_times);
+exceed_20_ratio = sum(waiting_times > 20) / num_patients;
+
+fprintf('--- 응급실 시뮬레이션 결과 요약 ---\n');
+fprintf('환자들의 평균 대기시간: %.2f 분\n', mean_wait);
+fprintf('환자들의 최대 대기시간: %.2f 분\n', max_wait);
+fprintf('대기시간이 20분을 초과하는 환자의 비율: %.2f%%\n', exceed_20_ratio * 100);
+fprintf('------------------------------------\n\n');
+
+figure;
+histogram(waiting_times, 'BinWidth', 2, 'FaceColor', [0.5 0.3 0.7], 'EdgeColor', 'w');
+grid on;
+title('응급실 환자 300명의 대기시간 분포 (Histogram)');
+xlabel('대기 시간 (분)');
+ylabel('환자 수 (명)');
