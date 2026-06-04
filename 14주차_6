@@ -1,0 +1,41 @@
+%% 6번 문제
+clear; clc;
+
+rng(14);
+
+% (a) 단계 수를 n = 1000, 경로 수를 m = 100으로 설정하시오.
+n = 1000;
+m = 100;
+
+% (b) 오른쪽 이동 확률 0.56을 반영하여 n x m 크기의 이동 행렬 steps를 생성하시오.
+steps = ones(n, m);
+steps(rand(n, m) > 0.56) = -1;
+
+% (c) cumsum을 이용하여 각 경로의 누적 위치 행렬 walks를 생성하시오.
+walks = cumsum(steps, 1);
+
+% (d) 100개 경로를 하나의 figure에 모두 그리시오.
+figure;
+plot(walks);
+title('100 Random Walk Paths');
+xlabel('Steps');
+ylabel('Position');
+grid on;
+
+% (e) 각 경로의 최종 위치를 finalPosition이라는 1 x m 벡터로 저장하시오.
+finalPosition = walks(n, :);
+
+% (f) 최종 위치의 평균과 표준편차를 각각 meanFinal, stdFinal에 저장하시오.
+meanFinal = mean(finalPosition);
+stdFinal = std(finalPosition);
+
+% (g) 최종 위치가 100 이상인 경로의 비율을 rightDriftRatio에 저장하시오.
+rightDriftRatio = sum(finalPosition >= 100) / m;
+
+% (h) 별도의 figure에 finalPosition의 histogram을 30개 구간으로 나타내시오.
+figure;
+histogram(finalPosition, 30);
+title('Distribution of Final Positions');
+xlabel('Final Position');
+ylabel('Frequency');
+grid on;
