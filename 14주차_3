@@ -1,0 +1,39 @@
+%% 3번 문제
+clear; clc;
+
+% (a) 제품 수를 n = 100000으로 설정
+n = 100000;
+
+rng(14); 
+
+% (b) 각 부품의 정상 작동 여부를 c1, c2, c3, c4라는 logical vector로 생성
+c1 = (rand(1, n) <= 0.97);
+c2 = (rand(1, n) <= 0.95);
+c3 = (rand(1, n) <= 0.96);
+c4 = (rand(1, n) <= 0.92);
+
+% (c) 4개 부품이 모두 정상 작동하는 경우만 제품이 정상 작동으로 정의하고, 결과를 systemWorking에 저장
+systemWorking = c1 & c2 & c3 & c4;
+
+% (d) 시뮬레이션으로 추정한 제품 신뢰도를 reliabilityEst에 저장
+reliabilityEst = sum(systemWorking) / n;
+
+% (e) 이론적 신뢰도를 계산하여 reliabilityTrue에 저장
+reliabilityTrue = 0.97 * 0.95 * 0.96 * 0.92;
+
+% (f) abs(reliabilityEst - reliabilityTrue)를 계산하여 absError에 저장
+absError = abs(reliabilityEst - reliabilityTrue);
+
+% (g) 각 부품의 고장 수와 전체 시스템 고장 수를 하나의 벡터 failCounts에 저장
+failCounts = [sum(~c1), sum(~c2), sum(~c3), sum(~c4), n - sum(systemWorking)];
+
+% (h) failCounts를 bar graph로 나타내고, x축 눈금 이름을 지정
+figure;
+bar(failCounts);
+
+set(gca, 'XTickLabel', {'C1', 'C2', 'C3', 'C4', 'System'});
+
+xlabel('Components / System');
+ylabel('Number of Failures');
+title('Component and System Failure Counts');
+grid on;
