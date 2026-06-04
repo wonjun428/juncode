@@ -1,0 +1,56 @@
+%% 7번 문제
+clear; clc;
+
+% (a) 난수 결과가 재현되도록 rng(7) 설정
+rng(7);
+
+% (b) t = linspace(0,30,300)으로 시간 벡터를 생성
+t = linspace(0, 30, 300);
+
+% (c) 참 신호를 trueSignal에 저장
+trueSignal = 2*sin(0.4*t) + 0.7*cos(1.5*t);
+
+% (d) 표준편차 0.25의 정규분포 잡음을 추가하여 관측 신호 obsSignal 생성 (randn 활용)
+noise = 0.25 * randn(1, 300);
+obsSignal = trueSignal + noise;
+
+% (e) randperm을 사용하여 전체 위치 중 45개를 선택하고, 해당 위치의 obsSignal 값을 NaN으로 변경
+nan_indices = randperm(300, 45);
+obsSignal(nan_indices) = NaN;
+
+% (f) 결측치가 아닌 위치를 logical vector valid에 저장
+valid = ~isnan(obsSignal);
+
+% (g) 결측치가 아닌 데이터만 사용하여 전체 시간 벡터 t에 대해 선형 보간 결과 recLinear 생성
+recLinear = interp1(t(valid), obsSignal(valid), t, 'linear');
+
+% (h) 같은 방식으로 스플라인 보간 결과 recSpline 생성
+recSpline = interp1(t(valid), obsSignal(valid), t, 'spline');
+
+% (i) 참 신호와 recLinear, recSpline 사이의 RMSE를 각각 rmseLinear, rmseSpline에 저장
+rmseLinear = sqrt(mean((trueSignal - recLinear).^2));
+rmseSpline = sqrt(mean((trueSignal - recSpline).^2));
+
+% (j) 참 신호, 결측치가 포함된 관측값, 선형 보간 결과, 스플라인 보간 결과를 하나의 그래프에 시각화
+figure;
+
+% 1. 참 신호 (선 그래프)
+plot(t, trueSignal, 'k-', 'LineWidth', 2); 
+hold on;
+
+% 2. 결측치가 포함된 관측값 (마커 표시, NaN은 plot 시 자동으로 끊기거나 제외되므로 가시성 확보)
+plot(t, obsSignal, 'ro', 'MarkerSize', 4, 'MarkerFaceColor', 'r'); 
+
+% 3. 선형 보간 결과 (점선 그래프)
+plot(t, recLinear, 'b--', 'LineWidth', 1.2); 
+
+% 4. 스플라인 보간 결과 (실선 그래프)
+plot(t, recSpline, 'g-', 'LineWidth', 1.2); 
+
+hold off;
+
+xlabel('Time (t)');
+ylabel('Signal Value');
+title('Signal Recovery using Interpolation Methods');
+legend('True Signal', 'Observed Signal (with NaN)', 'Linear Interpolation', 'Spline Interpolation', 'Location', 'best');
+grid on;
