@@ -1,0 +1,53 @@
+%% 2번 문제
+clear; clc;
+
+% (a) 작업 수를 n = 3000으로 설정
+n = 3000;
+
+mean_interArrival = 1.2;
+mean_service = 0.9;
+
+
+% (b) 도착 간격을 interArrival이라는 1 x n 벡터로 생성 (평균 1.2초 지수분포)
+interArrival = -mean_interArrival * log(rand(1, n));
+
+% (c) cumsum을 이용하여 실제 도착 시각 벡터 arrival을 생성
+arrival = cumsum(interArrival);
+
+% (d) 처리 시간을 service라는 1 x n 벡터로 생성 (평균 0.9초 지수분포)
+service = -mean_service * log(rand(1, n));
+
+% (e) 각 작업의 서비스 시작 시각 startTime과 종료 시각 finishTime을 for문으로 계산
+startTime = zeros(1, n);
+finishTime = zeros(1, n);
+
+startTime(1) = arrival(1);
+finishTime(1) = startTime(1) + service(1);
+
+for i = 2:n
+    if arrival(i) > finishTime(i-1)
+        startTime(i) = arrival(i);
+    else
+        startTime(i) = finishTime(i-1);
+    end
+    
+    finishTime(i) = startTime(i) + service(i);
+end
+
+% (f) 대기시간 waitingTime = startTime - arrival을 계산
+waitingTime = startTime - arrival;
+
+% (g) 평균 대기시간, 최대 대기시간, 대기시간이 5초 이상인 작업의 비율 계산
+meanWait = mean(waitingTime);
+maxWait = max(waitingTime);
+longWaitRatio = sum(waitingTime >= 5) / n;
+
+% (h) waitingTime의 histogram을 40개 구간으로 나타냄
+figure;
+histogram(waitingTime, 40);
+
+% (i) 그래프 제목 설정
+title('Waiting Time Distribution in a Data Center Queue');
+xlabel('Waiting Time (seconds)');
+ylabel('Frequency');
+grid on;
