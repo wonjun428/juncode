@@ -1,0 +1,68 @@
+%% 16번 문제
+clear; clc;
+
+% (a) 난수 결과가 재현되도록 rng(3) 설정하시오.
+rng(3);
+
+% (b) t = linspace(0,60,6000)을 생성하고, 정규분포 잡음을 포함한 signal을 생성하시오.
+% s(t) = sin(0.5t) + 0.4sin(3t) + 0.15*epsilon
+t = linspace(0, 60, 6000);
+epsilon = randn(1, 6000);
+signal = sin(0.5*t) + 0.4*sin(3*t) + 0.15*epsilon;
+
+% (c) movmean을 사용하여 window size 200의 이동평균 trend를 생성하시오.
+trend = movmean(signal, 200);
+
+% (d) x,y를 각각 [-5,5] 구간에서 300개의 점으로 생성하고, meshgrid로 X, Y를 생성하시오.
+x = linspace(-5, 5, 300);
+y = linspace(-5, 5, 300);
+[X, Y] = meshgrid(x, y);
+
+% (e) Z를 계산하시오. (원소별 연산자 .^ 와 .* 필수 적용)
+Z = exp(-0.05 * (X.^2 + Y.^2)) .* cos(3*X) .* sin(2*Y);
+
+% (f) tiledlayout(2,2)를 사용하여 dashboard를 생성하시오.
+fig = figure('Color', 'w');
+dash = tiledlayout(2, 2);
+
+% (k) 전체 제목은 'Integrated Visualization Dashboard'로 설정하시오.
+title(dash, 'Integrated Visualization Dashboard');
+
+% (g) 첫 번째 tile: 원본 signal과 이동평균 trend 시각화
+nexttile;
+plot(t, signal, 'Color', [0.7, 0.7, 0.7], 'LineWidth', 0.5);
+hold on;
+plot(t, trend, 'r-', 'LineWidth', 1.5);
+hold off;
+% (j) 제목, 축 label, grid 추가
+title('2D Time-Series & Moving Average Trend');
+xlabel('Time (t)');
+ylabel('Amplitude');
+legend('Original Signal', 'Moving Average Trend (Window=200)', 'Location', 'best');
+grid on;
+
+% (h) 두 번째 tile: surf(X,Y,Z)를 이용한 3차원 surface 시각화
+nexttile;
+surf(X, Y, Z);
+shading interp;
+view(45, 30);
+% (j) 제목, 축 label, grid, colorbar 추가
+title('3D Surface Plot');
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+colorbar;
+grid on;
+
+% (i) 세 번째 tile: contourf를 이용한 filled contour 시각화
+nexttile;
+contourf(X, Y, Z, 50, 'LineColor', 'none');
+% (j) 제목, 축 label, grid, colorbar 추가
+title('Filled Contour Plot');
+xlabel('X');
+ylabel('Y');
+colorbar;
+grid on;
+
+% (l) 최종 figure를 visualization_dashboard.png라는 이름으로 300 dpi PNG 파일로 저장하시오.
+exportgraphics(fig, 'visualization_dashboard.png', 'Resolution', 300);
