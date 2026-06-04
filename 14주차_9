@@ -1,0 +1,49 @@
+%% 9번 문제
+clear; clc;
+
+% (a) meshgrid(1:5,1:5)를 사용하여 원래 격자 X, Y를 생성하시오.
+[X, Y] = meshgrid(1:5, 1:5);
+
+% (b) 높이 행렬 H를 생성하시오.
+H = [12, 14, 16, 15, 13;
+     13, 18, 22, 20, 16;
+     15, 23, 31, 25, 18;
+     14, 20, 26, 24, 17;
+     11, 15, 18, 16, 14];
+
+% (c) 1:0.1:5 간격으로 촘촘한 격자 Xq, Yq를 생성하시오.
+[Xq, Yq] = meshgrid(1:0.1:5, 1:0.1:5);
+
+% (d) interp2와 'linear' 옵션을 사용하여 촘촘한 높이 행렬 HqLinear를 생성하시오.
+HqLinear = interp2(X, Y, H, Xq, Yq, 'linear');
+
+% (e) interp2와 'spline' 옵션을 사용하여 촘촘한 높이 행렬 HqSpline을 생성하시오.
+HqSpline = interp2(X, Y, H, Xq, Yq, 'spline');
+
+% (f) tiledlayout(1,3)을 사용하여 원래 지형, 선형보간 지형, 스플라인 보간 지형을 한 figure에 비교하시오.
+figure;
+tiledlayout(1, 3);
+
+% Tile 1: 원래 지형 (Original Terrain)
+nexttile;
+surf(X, Y, H);
+shading interp; % (g) shading interp 적용
+colorbar;       % (g) colorbar 포함
+xlabel('X'); ylabel('Y'); zlabel('Height'); % (g) 축 label 포함
+title('Original Terrain (5x5)');            % (g) 제목 포함
+
+% Tile 2: 선형 보간 지형 (Linear Interpolation)
+nexttile;
+surf(Xq, Yq, HqLinear);
+shading interp; % (g) shading interp 적용
+colorbar;       % (g) colorbar 포함
+xlabel('X'); ylabel('Y'); zlabel('Height'); % (g) 축 label 포함
+title('Linear Interpolation');               % (g) 제목 포함
+
+% Tile 3: 스플라인 보간 지형 (Spline Interpolation)
+nexttile;
+surf(Xq, Yq, HqSpline);
+shading interp; % (g) shading interp 적용
+colorbar;       % (g) colorbar 포함
+xlabel('X'); ylabel('Y'); zlabel('Height'); % (g) 축 label 포함
+title('Spline Interpolation');               % (g) 제목 포함
