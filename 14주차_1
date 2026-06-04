@@ -1,0 +1,48 @@
+%% 1번 문제
+% (a) 난수 결과가 재현되도록 rng(14) 설정
+rng(14);
+
+% (b) 평균이 18인 포아송분포 난수를 이용하여 30 x 12 크기의 행렬 request 생성
+lambda = 18;
+L = exp(-lambda);
+request = zeros(30, 12);
+
+for i = 1:30
+    for j = 1:12
+        k = 0;
+        p = 1;
+        while p > L
+            k = k + 1;
+            p = p * rand();
+        end
+        request(i, j) = k - 1;
+    end
+end
+
+% (c) 각 날짜별 총 요청 건수를 계산하여 30 x 1 열벡터 dailyTotal에 저장
+dailyTotal = sum(request, 2);
+
+% (d) 하루 총 요청 건수가 240건 이상인 날짜를 busyDay라는 logical vector로 저장
+busyDay = (dailyTotal >= 240);
+
+% (e) 혼잡일의 개수를 numBusyDay에 저장
+numBusyDay = sum(busyDay);
+
+% (f) 전체 30일 동안의 시간대별 평균 요청 건수를 hourlyMean에 저장
+hourlyMean = mean(request, 1); 
+
+% (g) dailyTotal은 선 그래프로 나타내고, 혼잡일은 같은 그래프 위에 marker로 표시
+figure;
+days = 1:30;
+
+plot(days, dailyTotal, '-b', 'LineWidth', 1.5); 
+hold on;
+
+plot(days(busyDay), dailyTotal(busyDay), 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 8);
+hold off;
+
+% (h) 축 이름 및 제목 설정
+xlabel('Day');
+ylabel('Total Requests');
+title('Daily Delivery Request Simulation');
+grid on;
