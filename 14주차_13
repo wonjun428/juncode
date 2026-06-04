@@ -1,0 +1,36 @@
+%% 13번 문제
+clear; clc;
+
+% (a) x, y를 각각 [-8, 8] 구간에서 800개의 점으로 생성하시오.
+x = linspace(-8, 8, 800);
+y = linspace(-8, 8, 800);
+
+% (b) meshgrid를 이용하여 X, Y를 생성하시오.
+[X, Y] = meshgrid(x, y);
+
+% (c) Z를 계산하시오.
+% (주의: 분수식 및 행렬 간의 곱셈, 거듭제곱이므로 .*, ./, .^ 연산자를 정확히 사용해야 합니다)
+Z = (cos(2*X) .* sin(3*Y)) ./ (1 + 0.1 * (X.^2 + Y.^2));
+
+% (d) contourf(X,Y,Z,70,'LineColor','none')을 이용하여 filled contour를 그리시오.
+figure;
+contourf(X, Y, Z, 70, 'LineColor', 'none');
+
+% (e) colormap(parula), colorbar, axis equal, grid on, box on을 적용하시오.
+colormap(parula);
+colorbar;
+axis equal;
+grid on;
+box on;
+
+% (f) x축 label은 'X coordinate', y축 label은 'Y coordinate'로 지정하시오.
+xlabel('X coordinate');
+ylabel('Y coordinate');
+
+% (g) 제목은 'High-Resolution Filled Contour of a Damped Oscillatory Field'로 지정하시오.
+title('High-Resolution Filled Contour of a Damped Oscillatory Field');
+
+% (h) 축 글꼴 크기를 12 이상으로 설정하고, 축 선 두께를 1.2 이상으로 설정하시오.
+ax = gca;
+ax.FontSize = 12;
+ax.LineWidth = 1.2;
