@@ -1,0 +1,49 @@
+%% 4번 문제
+clear; clc;
+
+rng(14); 
+
+% (a) batteryLife라는 1 x 50000 벡터를 생성하시오.
+mu = 9.5;
+sigma = 1.2;
+num_samples = 50000;
+batteryLife = mu + sigma * randn(1, num_samples);
+
+% (b) 사용 시간이 8시간 미만인 배터리의 logical vector를 lowBattery에 저장하시오.
+lowBattery = (batteryLife < 8);
+
+% (c) 사용 시간이 8시간 이상 11시간 미만인 배터리의 logical vector를 normalBattery에 저장하시오.
+normalBattery = (batteryLife >= 8) & (batteryLife < 11);
+
+% (d) 사용 시간이 11시간 이상인 배터리의 logical vector를 excellentBattery에 저장하시오.
+excellentBattery = (batteryLife >= 11);
+
+% (e) 세 등급의 개수를 각각 계산하여 gradeCounts라는 1 x 3 벡터에 저장하시오.
+gradeCounts = [sum(lowBattery), sum(normalBattery), sum(excellentBattery)];
+
+% (f) 세 등급의 비율을 gradeRatio라는 1 x 3 벡터에 저장하시오.
+gradeRatio = gradeCounts / num_samples;
+
+% (g) 배터리 수명 histogram을 50개 구간으로 나타내고, x = 8, x = 11 위치에 기준선을 추가하시오.
+figure;
+histogram(batteryLife, 50);
+hold on;
+
+xline(8, '--r', 'LineWidth', 1.5, 'Label', 'x = 8');
+xline(11, '--r', 'LineWidth', 1.5, 'Label', 'x = 11');
+hold off;
+
+title('Battery Life Distribution');
+xlabel('Battery Life (hours)');
+ylabel('Frequency');
+grid on;
+
+% (h) 별도의 figure에 gradeCounts를 bar graph로 나타내시오.
+figure;
+bar(gradeCounts);
+
+set(gca, 'XTickLabel', {'부족 (Low)', '정상 (Normal)', '우수 (Excellent)'});
+title('Battery Grade Counts');
+xlabel('Grade');
+ylabel('Count');
+grid on;
