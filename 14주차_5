@@ -1,0 +1,46 @@
+%% 5번 문제
+clear; clc;
+
+rng(14);
+
+% (a) 고객 수를 n = 20000으로 설정하시오.
+n = 20000;
+
+% (b) 고객별 청구 여부를 hasClaim이라는 logical vector로 생성하시오.
+hasClaim = (rand(1, n) <= 0.06);
+
+% (c) 평균 800, 표준편차 250인 정규분포 난수를 이용하여 claimAmount를 생성하시오.
+mu = 800;
+sigma = 250;
+claimAmount = mu + sigma * randn(1, n);
+
+% (d) claimAmount 중 음수인 값을 모두 0으로 바꾸시오.
+claimAmount(claimAmount < 0) = 0;
+
+% (e) 실제 지급액을 claimPayment = hasClaim .* claimAmount로 계산하시오.
+claimPayment = hasClaim .* claimAmount;
+
+% (f) 총 지급액 totalPayment, 고객 1인당 평균 지급액 meanPayment, 
+totalPayment = sum(claimPayment);
+meanPayment = mean(claimPayment);
+
+meanClaimOnly = mean(claimPayment(hasClaim)); 
+
+% (g) 지급액이 1200 이상인 고액 청구 고객 수를 numLargeClaim에 저장하시오.
+numLargeClaim = sum(claimPayment >= 1200);
+
+% (h) claimPayment 전체 histogram과 claimPayment > 0인 값만의 histogram을 서로 다른 figure에 나타내시오.
+figure;
+histogram(claimPayment);
+title('Total Claim Payment Distribution (All Customers)');
+xlabel('Payment Amount');
+ylabel('Frequency');
+grid on;
+
+% 2. 청구액이 0보다 큰(실제 청구가 발생한) 값만 추려낸 히스토그램
+figure;
+histogram(claimPayment(claimPayment > 0));
+title('Claim Payment Distribution (Only Active Claims > 0)');
+xlabel('Payment Amount');
+ylabel('Frequency');
+grid on;
