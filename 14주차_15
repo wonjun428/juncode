@@ -1,0 +1,40 @@
+%% 15번 문제
+clear; clc;
+
+% (a) u = linspace(0,8*pi,500), v = linspace(-pi,pi,180)을 생성하시오.
+u = linspace(0, 8*pi, 500);
+v = linspace(-pi, pi, 180);
+
+% (b) meshgrid를 이용하여 U, V를 생성하시오.
+[U, V] = meshgrid(u, v);
+
+% (c) 위 식을 이용하여 X, Y, Z를 계산하시오. (원소별 연산자 .* 필수 적용)
+X = (2 + 0.4 * cos(V)) .* cos(U);
+Y = (2 + 0.4 * cos(V)) .* sin(U);
+Z = 0.25 * U + 0.4 * sin(V);
+
+% (d) surf(X,Y,Z)를 이용하여 곡면을 그리시오.
+fig = figure;
+surf(X, Y, Z);
+
+% (e) shading interp, colormap(parula), colorbar를 적용하시오.
+shading interp;
+colormap(parula);
+colorbar;
+
+% (f) x축 label, y축 label, z축 label을 각각 'X', 'Y', 'Z'로 지정하시오.
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+
+% (g) 제목은 'Twisted Parametric Ribbon Surface'로 지정하시오.
+title('Twisted Parametric Ribbon Surface');
+
+% (h) axis equal, axis tight, grid on, view(45,35)를 적용하시오.
+axis equal;
+axis tight;
+grid on;
+view(45, 35);
+
+% (i) 최종 figure를 twisted_ribbon.png라는 이름으로 300 dpi PNG 파일로 저장하시오.
+exportgraphics(fig, 'twisted_ribbon.png', 'Resolution', 300);
